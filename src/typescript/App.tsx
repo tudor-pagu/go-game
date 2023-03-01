@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import BoardView from './BoardView';
 import './Database'
 import { add_to_collection } from './Database';
 import {getEmptyBoard} from "./GameLogic"
@@ -10,7 +11,7 @@ function App() {
   return (
     
     <div className="App">
-      <Board board={board} />
+      <BoardView board={board} />
     </div>
   );
 }

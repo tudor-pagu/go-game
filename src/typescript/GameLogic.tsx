@@ -18,5 +18,5 @@ function getEmptyBoard(boardSize: number): Board {
     };
 }
 
-export {getEmptyBoard};
-export type { Board, BoardCell };
+export {getEmptyBoard, BoardCell};
+export type { Board };
