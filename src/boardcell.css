@@ -1,0 +1,89 @@
+.board-cell {
+    background-color : orange;
+    width : 15px;
+    height : 15px;
+    position: relative;
+}
+
+.cross-vert-top {
+    background-color : black;
+    width : 1.5px;
+    height : 50%;
+    position:absolute;
+    left : 50%;
+}
+
+.cross-vert-bottom {
+    background-color : black;
+    width : 1.5px;
+    height : 50%;
+    position:absolute;
+    left : 50%;
+    top : 50%;
+}
+
+
+.cross-hori-left {
+    background-color : black;
+    width : 50%;
+    height : 1.5px;
+    position:absolute;
+    right : 50%;
+    top : 50%;
+}
+
+.cross-hori-right {
+    background-color : black;
+    width : 50%;
+    height : 1.5px;
+    position:absolute;
+    left : 50%;
+    top : 50%;
+}
+
+.middle-dot {
+    background-color: black;
+    width : 1.5px;
+    height : 1.5px;
+    top : 50%;
+    left : 50%;
+    position : absolute;
+}
+
+.piece {
+    height : 80%;
+    width : 80%;
+    top: 50%;
+    left: 50%;
+    position : absolute;
+    border-radius : 50%;
+    transform: translate(-50%, -50%);
+}
+
+.piece.white {
+    background: hsla(0, 0%, 75%, 1);
+
+    background: linear-gradient(90deg, hsla(0, 0%, 75%, 1) 0%, hsla(0, 0%, 95%, 1) 100%);
+    
+    background: -moz-linear-gradient(90deg, hsla(0, 0%, 75%, 1) 0%, hsla(0, 0%, 95%, 1) 100%);
+    
+    background: -webkit-linear-gradient(90deg, hsla(0, 0%, 75%, 1) 0%, hsla(0, 0%, 95%, 1) 100%);
+    
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#BFBFBF", endColorstr="#F3F3F3", GradientType=1 );
+} 
+
+.piece.black {
+    background: hsla(0, 0%, 9%, 1);
+
+    background: linear-gradient(90deg, hsla(0, 0%, 9%, 1) 0%, hsla(0, 0%, 42%, 1) 100%);
+    
+    background: -moz-linear-gradient(90deg, hsla(0, 0%, 9%, 1) 0%, hsla(0, 0%, 42%, 1) 100%);
+    
+    background: -webkit-linear-gradient(90deg, hsla(0, 0%, 9%, 1) 0%, hsla(0, 0%, 42%, 1) 100%);
+    
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#181818", endColorstr="#6C6C6C", GradientType=1 );
+}
+
+.piece.transparent {
+    opacity: 75%;
+}
