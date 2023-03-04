@@ -11,14 +11,15 @@ function App() {
   const [boardSize, setBoardSize] = useState(13);  
   const [board, setBoard] = useState(getEmptyBoard(boardSize));
 
-  const [currentPlayer, setCorrentPlayer] = useState<Player>(Cell.Black);
+  const [currentPlayer, setCurrentPlayer] = useState<Player>(Cell.Black);
   
   const playerMove = (p : Position) => {
     const newBoard = updateBoard(board, p, currentPlayer);
     if (newBoard instanceof Error) {
-
+        window.alert(newBoard.message);
     } else {
       setBoard(newBoard);
+      setCurrentPlayer((currentPlayer == Cell.White) ? Cell.Black : Cell.White);
     }
   }
 
