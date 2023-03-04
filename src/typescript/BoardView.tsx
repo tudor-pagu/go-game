@@ -5,6 +5,7 @@ import { Board, BoardCell } from './GameLogic'
 import Player from './Player';
 import Cell from './PlayerEnum';
 import Position from './Position';
+import "../boardcell.css";
 
 type Props = {
     board : Board,
@@ -30,15 +31,17 @@ function BoardView(props: Props) {
   }
 
   return (
-    <div className='flex flex-col'>
-    {
-      Range(0,boardSize).map((row) => (<div className="flex">{ 
-        Range(0, boardSize).map((col) => {
-          return (
-            <BoardCellView playerMove={props.playerMove} position={{row, col}} currentPlayer={props.currentPlayer} positionY={getPositionY(row)} positionX={getPositionX(col)} cell={board.get(row)?.get(col) ?? Cell.Empty}/>
-          )
-      }).toArray()}</div>)).toArray()
-    }
+    <div className='flex'>
+      <div className='flex flex-col big-go-board'>
+      {
+        Range(0,boardSize).map((row) => (<div className="flex w-full">{ 
+          Range(0, boardSize).map((col) => {
+            return (
+              <BoardCellView playerMove={props.playerMove} position={{row, col}} currentPlayer={props.currentPlayer} positionY={getPositionY(row)} positionX={getPositionX(col)} cell={board.get(row)?.get(col) ?? Cell.Empty}/>
+            )
+        }).toArray()}</div>)).toArray()
+      }
+      </div>
     </div>
   )
 }

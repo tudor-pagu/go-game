@@ -18,24 +18,24 @@ type Props = {
 const BoardCellView = (props: Props) => {
   const [isTransparent, setIsTransparent] = useState(false);
   return (
-    <div className={(props.positionX!='Middle' ? "flex":"")}>
+    <div className={(props.positionX!='Middle' ? "board-cell-edge":"")}>
       {
         props.positionY == "Top" &&
-        <div className='number-board'>
+        <div className={'number-board number-top ' + props.positionX}>
           {
-            props.position.col
+            String.fromCharCode("A".charCodeAt(0) + props.position.col)
           }
         </div>
       }
 
     {
         props.positionX == "Left" &&
-        <div className='number-board'>
+        <div className='number-board number-left'>
           {
-            props.position.col
+            props.position.row + 1
           }
         </div>
-      }
+        }
 
       <div onClick={() => { if (props.cell == Cell.Empty) { props.playerMove(props.position) } }} className={'board-cell ' + props.positionX + " " + props.positionY} onMouseEnter={() => { setIsTransparent(true) }} onMouseLeave={() => { setIsTransparent(false) }}>
 
@@ -88,18 +88,18 @@ const BoardCellView = (props: Props) => {
 
       {
         props.positionY == "Bottom" &&
-        <div className='number-board'>
+        <div className={'number-board number-bottom ' + props.positionX}>
           {
-            props.position.col
+            String.fromCharCode("A".charCodeAt(0) + props.position.col)
           }
         </div>
       }
 
 {
-        props.positionX == "Right" &&
-        <div className='number-board'>
+       props.positionX == "Right" &&
+        <div className={'number-board number-right '+props.positionY}>
           {
-            props.position.col
+            props.position.row + 1
           }
         </div>
       }
