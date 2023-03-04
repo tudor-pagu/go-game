@@ -18,7 +18,7 @@ type Props = {
 const BoardCellView = (props: Props) => {
   const [isTransparent, setIsTransparent] = useState(false);
   return (
-    <div className={(props.positionX!='Middle' ? "board-cell-edge":"")}>
+    <div className={(props.positionX!='Middle' ? "board-cell-edge":"") + " board-cell-main " + props.positionX + " " + props.positionY}>
       {
         props.positionY == "Top" &&
         <div className={'number-board number-top ' + props.positionX}>

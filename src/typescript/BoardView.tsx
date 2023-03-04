@@ -30,16 +30,20 @@ function BoardView(props: Props) {
     return "Middle";
   }
 
+  const styleGrid = {
+    gridTemplateColumns:`grid-template-columns: repeat(${props.board.size}, minmax(0, 1fr));`,
+  };
+
   return (
     <div className='flex'>
-      <div className='flex flex-col big-go-board'>
+      <div className='big-go-board' style={styleGrid}>
       {
-        Range(0,boardSize).map((row) => (<div className="flex w-full">{ 
+        Range(0,boardSize).map((row) => (<>{ 
           Range(0, boardSize).map((col) => {
             return (
               <BoardCellView playerMove={props.playerMove} position={{row, col}} currentPlayer={props.currentPlayer} positionY={getPositionY(row)} positionX={getPositionX(col)} cell={board.get(row)?.get(col) ?? Cell.Empty}/>
             )
-        }).toArray()}</div>)).toArray()
+        }).toArray()}</>)).toArray()
       }
       </div>
     </div>

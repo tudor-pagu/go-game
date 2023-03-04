@@ -8,7 +8,12 @@
 
 .big-go-board {
     background-color : orange;
-    justify-content: center;
+    display:grid;
+    grid-template-columns : repeat(13,auto);
+    justify-items:center;
+}
+.board-row > * {
+    flex : 1;
 }
 .cross-vert-top {
     background-color : black;
@@ -48,10 +53,16 @@
 
 .board-cell-edge {
     display : grid;
-    justify-content : center;
-    grid-template-columns: auto auto;
-    justify-items: center;
 }
+
+.board-cell-edge.Left {
+    grid-template-columns : 1fr auto;
+}
+
+.board-cell-edge.Right {
+    grid-template-columns :auto 1fr;
+}
+
 
 .middle-dot {
     background-color: black;
@@ -72,7 +83,7 @@
 }
 
 .number-board.number-right {
-    grid-column: 3/3;
+    grid-column: 2/3;
     display : flex;
     align-items : center;
     padding-right : 2.5px;
@@ -94,6 +105,19 @@
     grid-row : 2/2;
 }
 
+.board-cell-main.Left {
+    justify-self :stretch;
+}
+
+.number-board {
+    width : 100%;
+}
+
+
+
+.board-cell-main.Right {
+    justify-self : stretch;
+}
 .board-cell.Right.Top {
     grid-row : 2/2;
 }
