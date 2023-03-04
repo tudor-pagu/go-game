@@ -1,8 +1,10 @@
 .board-cell {
     background-color : orange;
+    display:flex;
     width : 15px;
     height : 15px;
     position: relative;
+    justify-content: center;
 }
 
 .cross-vert-top {
@@ -50,6 +52,15 @@
     position : absolute;
 }
 
+.number-board{
+    font-size:.4rem;
+    text-align:center;
+    background-color: orange;
+    font-weight: 600;
+    color : #3e3e3e;
+    justify-self : center;
+    align-self : bottom;
+}
 .piece {
     height : 80%;
     width : 80%;
