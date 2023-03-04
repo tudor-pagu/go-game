@@ -92,12 +92,12 @@ function clearCaptured(board:Board, lastMove : Position, pos:Position|null = {ro
     const liberties = countLiberties(board, pos);
     const group = getGroup(board, pos);
 
-    const newBoard = (liberties == 0 && (!group.contains(lastMove))) ? removeGroup(board, group) : board;
+    const newBoard = (liberties == 0 && (!(group.findIndex(p=>p.row==lastMove.row && p.col==lastMove.col)>=0))) ? removeGroup(board, group) : board;
 
     return clearCaptured(newBoard, lastMove, nextPos);
 }
 
-function updateBoard(board:Board , pos:Position, player : Player) : Error | Board {
+function updateBoard(board:Board , pos:Position, player : Player, boardHistory:List<Board>) : Error | Board {
     const {row,col} = pos;
     if ((row < 0 || row > board.size) || (col < 0 || col > board.size)) {
         return Error("Out of Bounds");
@@ -107,6 +107,10 @@ function updateBoard(board:Board , pos:Position, player : Player) : Error | Boar
     
     if (countLiberties(newBoard, pos) == 0) {
         return Error("Cannot place piece in captured teritory");
+    }
+
+    if (boardHistory.size > 0 && Immutable.is(newBoard, boardHistory.get(-1))) {
+        return Error("cannot immediately recapture piece");
     }
 
     return newBoard;
