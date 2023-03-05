@@ -47,7 +47,7 @@ function BoardView(props: Props) {
         Range(0,boardSize).map((row) => (<>{ 
           Range(0, boardSize).map((col) => {
             return (
-              <BoardCellView isHandicap={handicapPositions.has(boardSize) && ( handicapPositions.get(boardSize)?.findIndex(p=>p.row==row&&p.col==col) ?? -1 )>= 0} playerMove={props.playerMove} position={{row, col}} currentPlayer={props.currentPlayer} positionY={getPositionY(row)} positionX={getPositionX(col)} cell={board.get(row)?.get(col) ?? Cell.Empty}/>
+              <BoardCellView boardSize={props.board.size} isHandicap={handicapPositions.has(boardSize) && ( handicapPositions.get(boardSize)?.findIndex(p=>p.row==row&&p.col==col) ?? -1 )>= 0} playerMove={props.playerMove} position={{row, col}} currentPlayer={props.currentPlayer} positionY={getPositionY(row)} positionX={getPositionX(col)} cell={board.get(row)?.get(col) ?? Cell.Empty}/>
             )
         }).toArray()}</>)).toArray()
       }

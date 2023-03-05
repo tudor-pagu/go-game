@@ -7,7 +7,7 @@
 }
 
 .big-go-board {
-    background-color : orange;
+    background-color : #DCB35C;
     display:grid;
     grid-template-columns : repeat(13,auto);
     justify-items:center;
@@ -74,11 +74,13 @@
 }
 
 .handicap-dot {
-    background-color: red;
-    width : 3px;
-    height : 3px;
-    margin-left: auto;
-    margin-right: auto;
+    background-color: black;
+    width : 1.5px;
+    height : 1.5px;
+    left : 50%;
+    top : 50%;
+    transform:scaleX(2) scaleY(2);
+    transform-origin: center;
     position : absolute;
 }
 

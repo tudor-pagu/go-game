@@ -12,6 +12,7 @@ type Props = {
   positionY: "Top" | "Middle" | "Bottom",
   currentPlayer: Player,
   position: Position,
+  boardSize:number,
   isHandicap:boolean,
   playerMove: (p: Position) => void,
 }
@@ -33,7 +34,7 @@ const BoardCellView = (props: Props) => {
         props.positionX == "Left" &&
         <div className='number-board number-left'>
           {
-            props.position.row + 1
+            props.boardSize - props.position.row
           }
         </div>
         }
@@ -107,7 +108,7 @@ const BoardCellView = (props: Props) => {
        props.positionX == "Right" &&
         <div className={'number-board number-right '+props.positionY}>
           {
-            props.position.row + 1
+            props.boardSize - props.position.row
           }
         </div>
       }
