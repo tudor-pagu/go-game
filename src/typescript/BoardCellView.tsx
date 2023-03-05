@@ -12,6 +12,7 @@ type Props = {
   positionY: "Top" | "Middle" | "Bottom",
   currentPlayer: Player,
   position: Position,
+  isHandicap:boolean,
   playerMove: (p: Position) => void,
 }
 
@@ -71,6 +72,13 @@ const BoardCellView = (props: Props) => {
         <div className="middle-dot">
 
         </div>
+
+        {
+          props.isHandicap && 
+          <div className='handicap-dot'>
+
+          </div>
+        }
 
         {
           props.cell != Cell.Empty ?

@@ -1,4 +1,4 @@
-import { Range } from 'immutable';
+import { List, Range } from 'immutable';
 import React from 'react'
 import BoardCellView from './BoardCellView';
 import { Board, BoardCell } from './GameLogic'
@@ -12,6 +12,12 @@ type Props = {
     currentPlayer : Player,
     playerMove : (p:Position) => void,
 }
+
+const handicap9 = List([{row:2,col:2},{row:2,col:6},{row:4,col:4},{row:6,col:2},{row:6,col:6}]);
+const handicap13 = List([{row:3,col:3},{row:3,col:9},{row:6,col:6},{row:9,col:3},{row:9,col:9}]);
+const handicap19 = List([3,9,15]).flatMap((row) => List([3,9,15]).map(col => ({row,col})));
+
+const handicapPositions = List<List<Position>>().set(9, handicap9).set(13,handicap13).set(19,handicap19);
 
 
 function BoardView(props: Props) {
@@ -41,7 +47,7 @@ function BoardView(props: Props) {
         Range(0,boardSize).map((row) => (<>{ 
           Range(0, boardSize).map((col) => {
             return (
-              <BoardCellView playerMove={props.playerMove} position={{row, col}} currentPlayer={props.currentPlayer} positionY={getPositionY(row)} positionX={getPositionX(col)} cell={board.get(row)?.get(col) ?? Cell.Empty}/>
+              <BoardCellView isHandicap={handicapPositions.has(boardSize) && ( handicapPositions.get(boardSize)?.findIndex(p=>p.row==row&&p.col==col) ?? -1 )>= 0} playerMove={props.playerMove} position={{row, col}} currentPlayer={props.currentPlayer} positionY={getPositionY(row)} positionX={getPositionX(col)} cell={board.get(row)?.get(col) ?? Cell.Empty}/>
             )
         }).toArray()}</>)).toArray()
       }

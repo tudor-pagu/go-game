@@ -73,6 +73,15 @@
     position : absolute;
 }
 
+.handicap-dot {
+    background-color: red;
+    width : 3px;
+    height : 3px;
+    margin-left: auto;
+    margin-right: auto;
+    position : absolute;
+}
+
 .number-board{
     font-size:.4rem;
     text-align:center;
