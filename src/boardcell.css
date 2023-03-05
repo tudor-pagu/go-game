@@ -135,8 +135,8 @@
     grid-column : 1/2;
 }
 
-.number-board.number-bottom {
-    grid-column : 1/3;
+.number-board.number-bottom.Right {
+    grid-column : 1/2;
     grid-row : 2/2;
 }
 .piece {
