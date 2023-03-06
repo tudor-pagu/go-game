@@ -42,11 +42,30 @@ function gameToData(game:Game) : GameData {
     }
     //return {boardSize,board:JSON.stringify(board.toJS()),boardHistory:JSON.stringify(boardHistory.toJS())   ,currentPlayer,uid:"123"}
 }
+
 function dataToGame(gameJSON:GameData) : Game {
-    const game = JSON.parse(gameJSON.json) as GameProps;
-    return GamRecord({
-        boardSize:game.boardSize,
-        board: List<List<BoardCell>>
+    const game = JSON.parse(gameJSON.json);
+    function numberToBoardCell(x:any) {
+        if (x === 0) {
+            return Cell.White;
+        } else if (x === 1) {
+            return Cell.Black;
+        } else {
+            return Cell.Empty; 
+        }
+    }
+    function convertToBoard(v:[[number]]):Board {
+        return List<List<BoardCell>>(v.map((val:any)=>List<BoardCell>(val.map((x:any)=>numberToBoardCell(x)))));
+    }
+
+    return GameRecord({
+        boardSize: game.boardSize,
+        board: convertToBoard(game.board),
+        boardHistory:List<Board>(game.boardHistory.map((v:any)=>convertToBoard(v))),
+        currentPlayer: (game.currentPlayer == 1) ? Cell.Black : Cell.White,
+        id:game.id,
+        blackID:game.blackID,
+        whiteID:game.whiteID,
     });
 }
 
