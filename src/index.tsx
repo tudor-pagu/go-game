@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './typescript/App';
 import reportWebVitals from './reportWebVitals';
-import {createBrowserRouter, RouterProvider} from "react-router-dom"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import ErrorPage from './ErrorPage';
-import Game from './typescript/Game';
-import {loader as gameLoader} from "./typescript/Game";
+import GameComp from './typescript/GameComp';
+import { loader as gameLoader } from "./typescript/GameComp";
+import { getCurrentUser, getGames, getUsers, signIn } from './typescript/Database';
+import Header from './typescript/Header';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,13 +17,19 @@ const root = ReactDOM.createRoot(
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <Header />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "/game/:gameID",
-    element: <Game />,
-    loader: gameLoader,
+    children: [
+      {
+        path: "/",
+        element: <App signIn={signIn} getCurrentUser={getCurrentUser} getGames={getGames} getUsers={getUsers}/>,
+      },
+      {
+        path: "/game/:gameID",
+        element: <GameComp />,
+        loader: gameLoader,
+      }
+    ]
   }
 ])
 root.render(

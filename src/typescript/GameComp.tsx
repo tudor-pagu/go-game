@@ -69,7 +69,7 @@ function dataToGame(gameJSON:GameData) : Game {
     });
 }
 
-function Game() {
+function GameComp() {
     const { gameID } = useLoaderData() as { gameID: string };
     
    // Database.add_to_collection("games",GameRecord().id,gameToData(GameRecord()));
@@ -121,5 +121,6 @@ function loader({ params }: any) {
     const gameID = params.gameID;
     return { gameID };
 }
-export { loader };
-export default Game;
+export { loader, gameToData, dataToGame };
+export type {Game};
+export default GameComp;
