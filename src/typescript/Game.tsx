@@ -11,58 +11,57 @@ import Position from './Position';
 import * as Database from "./Database";
 import { updateJsxFragment } from 'typescript';
 
-interface Game {
+interface GameProps {
     boardSize:number,
     board:Board,
     boardHistory:List<Board>,
     currentPlayer:Player,
+    id:string,
+    blackID:string,
+    whiteID:string,
 }
 
-function gameToJSON({boardSize,board,boardHistory,currentPlayer}:Game) {
-    return {boardSize,board:JSON.stringify(board.toJS()),boardHistory:JSON.stringify(boardHistory.toJS())   ,currentPlayer,uid:"123"}
+const GameRecord = Record<GameProps>({
+    boardSize : 13,
+    board : getEmptyBoard(13),
+    boardHistory : List<Board>(),
+    currentPlayer : Cell.White,
+    id:"1234",
+    blackID:"",
+    whiteID:"",
+});
+
+type Game = RecordOf<GameProps>;
+
+interface GameData {
+    json : string;
 }
+function gameToData(game:Game) : GameData {
+    return {
+        json : JSON.stringify(game.toJS()),
+    }
+    //return {boardSize,board:JSON.stringify(board.toJS()),boardHistory:JSON.stringify(boardHistory.toJS())   ,currentPlayer,uid:"123"}
+}
+function dataToGame(gameJSON:GameData) : Game {
+    const game = JSON.parse(gameJSON.json) as GameProps;
+    return GamRecord({
+        boardSize:game.boardSize,
+        board: List<List<BoardCell>>
+    });
+}
+
 function Game() {
     const { gameID } = useLoaderData() as { gameID: string };
-    /*
     
-    const [boardSize, setBoardSize] = useState(13);
-    const [board, setBoard] = useState(getEmptyBoard(boardSize));
-    const [boardHistory, setBoardHistory] = useState(List<Board>());
+   // Database.add_to_collection("games",GameRecord().id,gameToData(GameRecord()));
+    
 
-    const [currentPlayer, setCurrentPlayer] = useState<Player>(Cell.Black);
-
-    Database.add_to_collection("games",{boardSize,board:JSON.stringify(board.toJS()),boardHistory:JSON.stringify(boardHistory.toJS())   ,currentPlayer,uid:"123"});
-    */
-
-    const [gameAux,setGame] = Database.useDatabaseState<any>("games",gameID);
-    if (gameAux === undefined) {
+    const [gameJson,setGame] = Database.useDatabaseState<any>("games",gameID);
+    if (gameJson === undefined) {
         return <div>loading...</div>
     }
-    function processDatabaseData(gameAux:any):Game {
-        function f(x:any) {
-            if (x === 0) {
-                return Cell.White;
-            } else if (x === 1) {
-                return Cell.Black;
-            } else {
-                return Cell.Empty; 
-            }
-        }
-        
-        function convertToBoard(v:any):Board {
-            return List<List<BoardCell>>(v.map((val:any)=>List<BoardCell>(val.map((x:any)=>f(x)))));
-        }
-        return {
-            boardSize: gameAux.boardSize,
-            board: convertToBoard(JSON.parse(gameAux.board)),
-            boardHistory:List<Board>(JSON.parse(gameAux.boardHistory).map((v:any)=>convertToBoard(v))),
-            currentPlayer: (gameAux.currentPlayer == 1) ? Cell.Black : Cell.White,
 
-        }
-    }
-
-    const GameRecord = Record(processDatabaseData(gameAux));
-    const game:RecordOf<Game> = GameRecord();
+    const game = dataToGame(gameJson);
     
     function update<TProps extends object>(obj:RecordOf<TProps>, key : keyof TProps) {
         const f = (newValue:typeof obj[typeof key]) => {
@@ -87,7 +86,7 @@ function Game() {
                 boardHistory: boardHistory.push(board),
                 currentPlayer:(currentPlayer == Cell.White) ? Cell.Black : Cell.White,
             })
-            setGame(gameToJSON(newGame));
+            setGame(gameToData(newGame));
         }
     }
 

@@ -17,9 +17,9 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 
-async function add_to_collection<T extends DocumentData>(collection:string, object:T) {
+async function add_to_collection<T extends DocumentData>(collection:string, id:string, object:T) {
     const collectionRef = firestore.collection(collection);
-    await collectionRef.doc(object.uid).set(object);
+    await collectionRef.doc(id).set(object);
 }
 
 async function update_document<T extends DocumentData>(collection:string, id:string, data : T) {
