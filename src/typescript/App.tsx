@@ -7,7 +7,7 @@ import {Board, getEmptyBoard, updateBoard} from "./GameLogic"
 import Player from './Player';
 import Cell from './PlayerEnum';
 import Position from './Position';
-
+  
 function App() {
   const [boardSize, setBoardSize] = useState(13);  
   const [board, setBoard] = useState(getEmptyBoard(boardSize));
