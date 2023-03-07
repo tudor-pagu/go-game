@@ -1,6 +1,7 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom';
-import { getCurrentUser, signIn, SignOut, useAuthStateDb } from './Database';
+import Button from './Button';
+import { getCurrentUser, signIn, signOut, useAuthState } from './interfaces/Auth';
 import SignButton from './SignButton';
 import SignIn from './SignButton';
 
@@ -9,11 +10,11 @@ type Props = {
 }
 
 const Header = (props: Props) => {
-    const user = useAuthStateDb();
+    const user = useAuthState();
     const userInfo = getCurrentUser();
     return (
         <div>
-            <div className='bg-blue-400 flex justify-end gap-3'>
+            <div className='bg-blue-400 flex justify-end gap-3 items-center'>
                 <div>
                     {
                         userInfo &&
@@ -22,8 +23,8 @@ const Header = (props: Props) => {
                 </div>
                 {
                     user ?
-                        <SignButton action={SignOut} text="Sign Out" /> :
-                        <SignButton action={signIn} text="Sign in" />
+                        <Button onClick={signOut}>Sign Out</Button> :
+                        <Button onClick={signIn}>Sign in</Button>
                 }
             </div>
             <div>

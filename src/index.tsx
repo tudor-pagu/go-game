@@ -7,8 +7,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import ErrorPage from './ErrorPage';
 import GameComp from './typescript/GameComp';
 import { loader as gameLoader } from "./typescript/GameComp";
-import { getCurrentUser, getGames, getUsers, signIn } from './typescript/Database';
+import { getCurrentUser, signIn } from './typescript/interfaces/Auth';
+import { getGames, getUsers } from './typescript/interfaces/Database';
 import Header from './typescript/Header';
+import firebase from 'firebase/compat/app';
+
+import secret from "./secret";
+import { ChakraProvider } from '@chakra-ui/react';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,12 +22,16 @@ const root = ReactDOM.createRoot(
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Header />,
+    element:
+      (<ChakraProvider>
+        <Header />
+      </ChakraProvider>
+      ),
     errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
-        element: <App signIn={signIn} getCurrentUser={getCurrentUser} getGames={getGames} getUsers={getUsers}/>,
+        element: <App signIn={signIn} getCurrentUser={getCurrentUser} getGames={getGames} getUsers={getUsers} />,
       },
       {
         path: "/game/:gameID",

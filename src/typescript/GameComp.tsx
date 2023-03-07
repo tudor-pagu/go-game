@@ -2,16 +2,16 @@ import Immutable, { List, Record, RecordOf } from 'immutable';
 import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import BoardView from './BoardView';
-import './Database'
-import { add_to_collection } from './Database';
+import './interfaces/Database'
 import { Board, BoardCell, getEmptyBoard, updateBoard } from "./GameLogic"
 import Player from './Player';
 import Cell from './PlayerEnum';
 import Position from './Position';
-import * as Database from "./Database";
+import * as Database from "./interfaces/Database";
 import { updateJsxFragment } from 'typescript';
 
 interface GameProps {
+    name:string,
     boardSize:number,
     board:Board,
     boardHistory:List<Board>,
@@ -22,6 +22,7 @@ interface GameProps {
 }
 
 const GameRecord = Record<GameProps>({
+    name:"default name",
     boardSize : 13,
     board : getEmptyBoard(13),
     boardHistory : List<Board>(),
@@ -59,6 +60,7 @@ function dataToGame(gameJSON:GameData) : Game {
     }
 
     return GameRecord({
+        name:game.name,
         boardSize: game.boardSize,
         board: convertToBoard(game.board),
         boardHistory:List<Board>(game.boardHistory.map((v:any)=>convertToBoard(v))),
@@ -121,6 +123,6 @@ function loader({ params }: any) {
     const gameID = params.gameID;
     return { gameID };
 }
-export { loader, gameToData, dataToGame };
+export { loader, gameToData, dataToGame, GameRecord };
 export type {Game};
 export default GameComp;
