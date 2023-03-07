@@ -3,6 +3,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import secret from '../../secret';
+import { useAuthState as useAuthStateFire} from 'react-firebase-hooks/auth';
 
 import { useCollectionData, useDocument, useDocumentData } from 'react-firebase-hooks/firestore';
 import { DocumentData, updateDoc, doc, DocumentReference, getFirestore } from 'firebase/firestore';
@@ -44,13 +45,35 @@ function useCollectionDataDB<T>(collection:string) : T[] | undefined {
 
 
 /**
- * Takes a collection and a document path, and gives the value of that document, as well as a function to update it, and refreshes the component when
- * the value changes. T is the type of the object that it receives from the database.
+auth
 */
+
+const auth = firebase.auth();
+
+
+function signIn() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    return auth.signInWithPopup(provider);
+}
+function signOut() : void {
+    auth.signOut();
+}
+
+function getCurrentUser() {
+    return auth.currentUser;
+}
+
+const useAuthState = () => {const [user] = useAuthStateFire(auth as any); return user;};
+
+
 
 export {
     setDocument,
     getCollection,
     useDatabaseState,
     useCollectionDataDB as useCollectionData,
+    signIn,
+    signOut,
+    getCurrentUser,
+    useAuthState,
 }

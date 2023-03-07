@@ -3,7 +3,7 @@ import {
     signOut,
     getCurrentUser,
     useAuthState
-} from "../services/Fireauth";
+} from "../services/Firebase";
 import firebase from 'firebase/compat/app';
 import User from "../User";
 import { setDocument } from "./Database";

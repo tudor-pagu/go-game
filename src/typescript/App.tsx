@@ -11,7 +11,7 @@ import Cell from './PlayerEnum';
 import Position from './Position';
 import SignIn from './SignButton';
 import User from './User';
-import { useAuthState } from './services/Fireauth';
+import { useAuthState } from './interfaces/Auth';
 import Button from './Button';
 import ModalComp from './ModalComp';
 

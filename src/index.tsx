@@ -10,7 +10,6 @@ import { loader as gameLoader } from "./typescript/GameComp";
 import { getCurrentUser, signIn } from './typescript/interfaces/Auth';
 import { getGames, getUsers } from './typescript/interfaces/Database';
 import Header from './typescript/Header';
-import firebase from 'firebase/compat/app';
 
 import secret from "./secret";
 import { ChakraProvider } from '@chakra-ui/react';
