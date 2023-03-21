@@ -14,29 +14,23 @@ import User from './User';
 import { useAuthState } from './interfaces/Auth';
 import Button from './Button';
 import ModalComp from './ModalComp';
+import { useCollectionData } from './interfaces/Database';
 
 interface Props {
   getCurrentUser : () => User | null;
-  getUsers : () => Promise<List<User>>;
-  getGames : () => Promise<List<Game>>;
-  signIn : () => void;
 }
-function App({getCurrentUser,getUsers,getGames,signIn} : Props) {
-  const [asyncData,setAsyncData] = useState<[List<User>, List<Game>] | null>(null);
-  
+function App({getCurrentUser} : Props) {
+  const user = getCurrentUser();
+  const users = useCollectionData<User>("users");
+  const games = useCollectionData<Game>("games");
   useAuthState();
-
-  useEffect(() => {
-    Promise.all([getUsers(), getGames()]).then((data) => {
-      setAsyncData(data);
-    })
-  }, []);
   
-  if (asyncData==null) {
+  if (users==undefined || games == undefined) {
     return <div>loading...</div>
   }
-  const user=getCurrentUser();
-  const [users,games] = asyncData;
+
+  console.log(users,games);
+
   const idToUser = (id:string) => {
     return users.find((user) => user.uid == id);
   }

@@ -38,8 +38,8 @@ function useDatabaseState<T>(collection:string,documentPath:string) : [T|undefin
 }
 
 function useCollectionDataDB<T>(collection:string) : T[] | undefined {
-    const query = firestore.collection(collection);
-    const data = useCollectionData(query as any);
+    const query = firestore.collection(collection).orderBy("id");
+    const [data] = useCollectionData(query as any);
     return data as T[] | undefined;
 }
 
