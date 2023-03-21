@@ -1,23 +1,24 @@
-import User from '../User';
-import { dataToGame, Game, gameToData } from '../GameComp';
-import { List } from 'immutable';
-import { setDocument, getCollection, useDatabaseState, useCollectionData  } from '../services/Firebase';
+import { List } from "immutable";
+import { Game } from "../GameComp";
+import User from "../User";
 
-async function getUsers() : Promise<List<User>> {
-    const x = await getCollection("users");
-    return List<User>(x);
-}
-async function getGames() : Promise<List<Game>> {
-    const x = await getCollection("games");
-    return List<Game>(x.map((game) => dataToGame(game)));
+interface Database {
+    /**
+     * returns the board state of a certain id,
+     * and updates the value and causes a re-render
+     * anytime the board is updated server-side
+     * @param boardId 
+     * @returns 
+     */
+    useGame: (gameId:string) => Game | null,
+    setGame : (gameId:string, newGame:Game) => Promise<void>,
+    /**
+     * Returns all currently active games
+     * @returns 
+     */
+    useActiveGames:()=>List<Game>|null,
+    useUser:(userId:string)=>User|null,
+    setUser:(user:User)=>Promise<void>,
 }
 
-
-export {
-    getCollection,
-    setDocument,
-    useDatabaseState,
-    getUsers,
-    getGames,
-    useCollectionData,
-}
+export default Database;

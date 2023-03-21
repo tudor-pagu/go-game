@@ -7,8 +7,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import ErrorPage from './ErrorPage';
 import GameComp from './typescript/GameComp';
 import { loader as gameLoader } from "./typescript/GameComp";
-import { getCurrentUser, signIn } from './typescript/interfaces/Auth';
-import { getGames, getUsers } from './typescript/interfaces/Database';
 import Header from './typescript/Header';
 
 import secret from "./secret";
@@ -30,7 +28,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <App signIn={signIn} getCurrentUser={getCurrentUser} getGames={getGames} getUsers={getUsers} />,
+        element: <App/>,
       },
       {
         path: "/game/:gameID",

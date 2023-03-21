@@ -1,7 +1,7 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom';
 import Button from './Button';
-import { getCurrentUser, signIn, signOut, useAuthState } from './interfaces/Auth';
+import FireAuth from './services/FirebaseAuth';
 import SignButton from './SignButton';
 import SignIn from './SignButton';
 
@@ -10,21 +10,21 @@ type Props = {
 }
 
 const Header = (props: Props) => {
-    const user = useAuthState();
-    const userInfo = getCurrentUser();
+    const user = FireAuth.getCurrentUser();
+    FireAuth.useAuthState();
     return (
         <div>
             <div className='bg-blue-400 flex justify-end gap-3 items-center'>
                 <div>
                     {
-                        userInfo &&
-                        userInfo.displayName
+                        user &&
+                        user.displayName
                     }
                 </div>
                 {
                     user ?
-                        <Button onClick={signOut}>Sign Out</Button> :
-                        <Button onClick={signIn}>Sign in</Button>
+                        <Button onClick={FireAuth.signOut}>Sign Out</Button> :
+                        <Button onClick={FireAuth.signIn}>Sign in</Button>
                 }
             </div>
             <div>

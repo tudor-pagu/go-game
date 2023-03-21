@@ -4,40 +4,26 @@ import React, { useEffect, useState } from 'react';
 import { redirect } from 'react-router-dom';
 import BoardView from './BoardView';
 import './interfaces/Database'
-import {Game} from './GameComp';
+import {Game} from './Game';
 import {Board, getEmptyBoard, updateBoard} from "./GameLogic"
 import Player from './Player';
 import Cell from './PlayerEnum';
 import Position from './Position';
 import SignIn from './SignButton';
 import User from './User';
-import { useAuthState } from './interfaces/Auth';
 import Button from './Button';
 import ModalComp from './ModalComp';
-import { useCollectionData } from './interfaces/Database';
+import FireAuth from './services/FirebaseAuth';
+import Firestore from './services/Firestore';
 
-interface Props {
-  getCurrentUser : () => User | null;
-}
-function App({getCurrentUser} : Props) {
-  const user = getCurrentUser();
-  const users = useCollectionData<User>("users");
-  const games = useCollectionData<Game>("games");
-  useAuthState();
+function App() {
+  const user = FireAuth.getCurrentUser();
+  const games = Firestore.useActiveGames();
+  FireAuth.useAuthState();
   
-  if (users==undefined || games == undefined) {
+  if (games === null) {
     return <div>loading...</div>
   }
-
-  console.log(users,games);
-
-  const idToUser = (id:string) => {
-    return users.find((user) => user.uid == id);
-  }
-
-  const createGameModal = () => {
-
-  };
 
   return (
     <div className='flex justify-around bg-sky-100 h-screen'>
@@ -52,7 +38,7 @@ function App({getCurrentUser} : Props) {
                 console.log(games);
                 return (
                   <div className="flex">
-                    <div>{`${idToUser(game.blackID)?.displayName} vs. ${idToUser(game.whiteID)?.displayName}`}</div>
+                    <div>{`${game.black.displayName} vs. ${game.white.displayName}`}</div>
                     <button onClick={() => {redirect(`game/${game.id}`)}}>Play</button>
                   </div>
                 )

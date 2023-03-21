@@ -1,12 +1,12 @@
 import { Button, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Radio, RadioGroup, Stack, Text, useDisclosure } from '@chakra-ui/react';
 import React, { useState } from 'react'
-import {setDocument} from "./interfaces/Database";
 import {v4 as uuid} from "uuid";
-import { GameRecord, gameToData } from './GameComp';
 import { Board, getEmptyBoard } from './GameLogic';
 import { List } from 'immutable';
 import Cell from './PlayerEnum';
 import Player from './Player';
+import Firestore from './services/Firestore';
+import { GameRecord } from './Game';
 
 type Props = {
     currentUserID : string,
@@ -45,7 +45,7 @@ const ModalComp = (props: Props) => {
             blackID:blackID,
             whiteID:whiteID,
         })
-        setDocument("games",game.id,gameToData(game));
+        Firestore.setGame(game.id,game);
     };
 
     return (

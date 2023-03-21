@@ -1,35 +1,14 @@
-import {
-    signIn as signInFirebase,
-    signOut,
-    getCurrentUser,
-    useAuthState
-} from "../services/Firebase";
-import firebase from 'firebase/compat/app';
-import User from "../User";
-import { setDocument } from "./Database";
+import User from "../User"
 
-
-function userCredentialsToUser(userCredentials: firebase.User): User {
-    const { uid, displayName, photoURL } = userCredentials;
-    const user: User = {
-        uid,
-        displayName,
-        photoURL,
-    }
-    return user;
+interface Auth {
+    signIn : () => void,
+    signOut : () => void,
+    getCurrentUser : () => User | null,
+    /**
+     * Makes the component refresh whenever the user changes
+     * @returns 
+     */
+    useAuthState : () => void;
 }
 
-function signIn() : void {
-    signInFirebase().then((userCredential) => {
-        if (userCredential.user) {
-            addUserToDatabase(userCredential.user);
-        }
-    })
-}
-
-function addUserToDatabase(userCredentials:firebase.User) : void {
-    const user = userCredentialsToUser(userCredentials);
-    setDocument("users",user.uid,user);
-}
-
-export { signIn, signOut, getCurrentUser, useAuthState }
+export default Auth;
