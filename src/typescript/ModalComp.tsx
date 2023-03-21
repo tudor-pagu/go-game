@@ -7,6 +7,7 @@ import Cell from './PlayerEnum';
 import Player from './Player';
 import Firestore from './services/Firestore';
 import { GameRecord } from './Game';
+import FireAuth from './services/FirebaseAuth';
 
 type Props = {
     currentUserID : string,
@@ -26,6 +27,9 @@ const ModalComp = (props: Props) => {
     const [gameName, setGameName] = useState(defaultValues.gameName);
     const [color, setColor] = useState(defaultValues.color);
     
+    const user = FireAuth.getCurrentUser();
+    FireAuth.useAuthState();
+
     const submitForm : React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
         setBoardSize(defaultValues.boardSize);
@@ -34,7 +38,7 @@ const ModalComp = (props: Props) => {
         onClose();
 
         const currentPlayer:Player = (color=="white") ? Cell.White : ((color=="black") ? Cell.Black : (random(0,1) == 0 ? Cell.White : Cell.Black))
-        const [blackID,whiteID] = (currentPlayer == Cell.White) ? ["",props.currentUserID] : [props.currentUserID,""];
+        const [black,white] = (currentPlayer == Cell.White) ? [null,user] : [user,null];
         const game = GameRecord({
             name : gameName,
             boardSize : Number(boardSize),
@@ -42,8 +46,8 @@ const ModalComp = (props: Props) => {
             boardHistory : List<Board>(),
             currentPlayer : currentPlayer,
             id:uuid(),
-            blackID:blackID,
-            whiteID:whiteID,
+            black:black,
+            white:white,
         })
         Firestore.setGame(game.id,game);
     };

@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, getFirestore, onSnapshot, setDoc } from "firebase/firestore";
+import { collection, connectFirestoreEmulator, doc, getDoc, getDocs, getFirestore, onSnapshot, setDoc } from "firebase/firestore";
 import { List } from "immutable";
 import { useEffect, useState } from "react";
 import { Game, GameRecord } from "../Game";
@@ -7,6 +7,9 @@ import Database from "../interfaces/Database";
 import Cell from "../PlayerEnum";
 import User from "../User";
 import app from "./FirebaseApp";
+
+const db = getFirestore(app);
+connectFirestoreEmulator(db, 'localhost', 8080);
 
 function gameToFirestore(game:Game) : any {
     return {
@@ -50,8 +53,6 @@ function firestoreToUser(firestoreUser:any) : User {
     }
 }
 
-
-const db = getFirestore(app);
 function useGame(gameId: string): Game | null {
     const [game, setGame] = useState<null|Game>(null);
     useEffect(() => {
@@ -75,7 +76,7 @@ function useActiveGames():List<Game>|null {
     useEffect(()=> {
         getDocs(collection(db,"games")).then((res)=>{
             setActiveGames(List(res.docs.map((doc)=>firestoreToGame(doc))));
-        });
+        }); 
     })
     return activeGame;
 }

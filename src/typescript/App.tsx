@@ -34,11 +34,11 @@ function App() {
           <h1>Your Games</h1>
           <div>
             {
-              games.filter((game) => game.whiteID == user.uid || game.blackID == user.uid).map((game) => {
+              games.filter((game) => game.white?.uid == user.uid || game.black?.uid == user.uid).map((game) => {
                 console.log(games);
                 return (
                   <div className="flex">
-                    <div>{`${game.black.displayName} vs. ${game.white.displayName}`}</div>
+                    <div>{`${game.black?.displayName} vs. ${game.white?.displayName}`}</div>
                     <button onClick={() => {redirect(`game/${game.id}`)}}>Play</button>
                   </div>
                 )

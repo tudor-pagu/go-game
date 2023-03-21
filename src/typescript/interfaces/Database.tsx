@@ -1,5 +1,5 @@
 import { List } from "immutable";
-import { Game } from "../GameComp";
+import { Game } from "../Game";
 import User from "../User";
 
 interface Database {

@@ -1,11 +1,13 @@
-import { UserCredential } from "firebase/auth";
+import { connectAuthEmulator, UserCredential } from "firebase/auth";
 import { getAdditionalUserInfo, getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useEffect, useState } from "react";
 import Auth from "../interfaces/Auth";
 import User from "../User";
-import app from "./FirebaseApp";
 import Firestore from "./Firestore";
+import app from "./FirebaseApp";
 const auth = getAuth(app);
+connectAuthEmulator(auth, "https://localhost:9099");
+
 const provider = new GoogleAuthProvider();
 
 

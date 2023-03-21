@@ -11,14 +11,10 @@ interface GameProps {
     boardHistory:List<Board>,
     currentPlayer:Player,
     id:string,
-    black:User,
-    white:User,
+    black:User|null,
+    white:User|null,
 }
-const defaultUser:User = {
-    uid:"1",
-    displayName:"joe",
-    photoURL:"123",
-}
+
 const GameRecord = Record<GameProps>({
     name:"default name",
     boardSize : 13,
@@ -26,8 +22,8 @@ const GameRecord = Record<GameProps>({
     boardHistory : List<Board>(),
     currentPlayer : Cell.White,
     id:"1234",
-    black:defaultUser,
-    white:defaultUser,
+    black:null,
+    white:null,
 });
 
 type Game = RecordOf<GameProps>;
