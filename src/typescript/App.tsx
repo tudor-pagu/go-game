@@ -17,9 +17,8 @@ import FireAuth from './services/FirebaseAuth';
 import Firestore from './services/Firestore';
 
 function App() {
- // const user = FireAuth.getCurrentUser();
-  //const games = Firestore.useActiveGames();
-/*  FireAuth.useAuthState();
+  const games = Firestore.useActiveGames();
+  const user = FireAuth.useCurrentUser();
   
   if (games === null) {
     return <div>loading...</div>
@@ -35,9 +34,8 @@ function App() {
           <div>
             {
               games.filter((game) => game.white?.uid == user.uid || game.black?.uid == user.uid).map((game) => {
-                console.log(games);
                 return (
-                  <div className="flex">
+                  <div className="flex" key={game.id}>
                     <div>{`${game.black?.displayName} vs. ${game.white?.displayName}`}</div>
                     <button onClick={() => {redirect(`game/${game.id}`)}}>Play</button>
                   </div>
@@ -61,8 +59,7 @@ function App() {
         </div>
       </div>
     </div>
-  );*/
-  return (<></>);
+  );
 }
 
 export default App;

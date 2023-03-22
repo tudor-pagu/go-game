@@ -42,8 +42,7 @@ const SignInModal = () => {
 }
 
 const Header = (props: Props) => {
-    const user = FireAuth.getCurrentUser();
-    FireAuth.useAuthState();
+    const user = FireAuth.useCurrentUser();
     return (
         <div>
             <div className='bg-blue-400 flex justify-end gap-3 items-center'>
@@ -55,7 +54,7 @@ const Header = (props: Props) => {
                 </div>
                 {
                     user ?
-                        <Button onClick={FireAuth.signOut}>Sign Out</Button> :
+                        <Button colorScheme='blue' onClick={FireAuth.signOut}>Sign Out</Button> :
                         <SignInModal />
                 }
             </div>

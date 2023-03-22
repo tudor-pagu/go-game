@@ -1,4 +1,4 @@
-import { collection, connectFirestoreEmulator, doc, getDoc, getDocs, getFirestore, onSnapshot, setDoc } from "firebase/firestore";
+import { collection, connectFirestoreEmulator, doc, getDoc, getDocs, getFirestore, onSnapshot, query, setDoc } from "firebase/firestore";
 import { List } from "immutable";
 import { useEffect, useState } from "react";
 import { Game, GameRecord } from "../Game";
@@ -60,7 +60,7 @@ function useGame(gameId: string): Game | null {
         return () => {
             unsub();
         }
-    });
+    }, []);
     return game;
 }
 
@@ -71,10 +71,10 @@ function setGame (gameId:string, newGame:Game) {
 function useActiveGames():List<Game>|null {
     const [activeGame, setActiveGames] = useState<null|List<Game>>(null);
     useEffect(()=> {
-        getDocs(collection(db,"games")).then((res)=>{
-            setActiveGames(List(res.docs.map((doc)=>firestoreToGame(doc))));
-        }); 
-    })
+        onSnapshot(query(collection(db,"games")), (res) => {
+            setActiveGames(List(res.docs.map((doc)=>firestoreToGame(doc.data()))));
+        })
+    }, [])
     return activeGame;
 }
 
@@ -84,7 +84,7 @@ function useUser(userId:string):User|null {
         getDoc(doc(db,"users",userId)).then((res) => {
             return firestoreToUser(res.data());
         });
-    });
+    }, []);
     return user;
 }
 

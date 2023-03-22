@@ -27,8 +27,7 @@ const ModalComp = (props: Props) => {
     const [gameName, setGameName] = useState(defaultValues.gameName);
     const [color, setColor] = useState(defaultValues.color);
     
-    const user = FireAuth.getCurrentUser();
-    FireAuth.useAuthState();
+    const user = FireAuth.useCurrentUser();
 
     const submitForm : React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
