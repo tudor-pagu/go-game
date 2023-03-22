@@ -13,7 +13,7 @@ const SignInModal = () => {
     const [displayName, setDisplayName] = useState("");
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (<div>
-        <Button colorScheme='gray' onClick={onOpen}>Sign in</Button>
+        <Button colorScheme='blue' variant='ghost' size='md' onClick={onOpen}>Sign in</Button>
 
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
@@ -26,7 +26,7 @@ const SignInModal = () => {
                         <form onSubmit={(e) => { e.preventDefault(); setDisplayName(""); FireAuth.signInAsGuest(displayName); onClose(); }}>
                             <Flex gap="10px" alignItems="center">
                                 <Input required placeholder="name" value={displayName} onChange={(e) => { setDisplayName(e.target.value) }}></Input>
-                                <Button variant="ghost" height="60px"
+                                <Button height="60px"
                                     type="submit" style={{
                                         whiteSpace: "normal",
                                         wordWrap: "break-word",
@@ -64,7 +64,7 @@ const Header = (props: Props) => {
                     </div>
                     {
                         user ?
-                            <Button size="xs" variant="ghost" colorScheme='gray' onClick={FireAuth.signOut}>Sign Out</Button> :
+                            <Button size="sm" variant="ghost" colorScheme='blue' onClick={FireAuth.signOut}>Sign Out</Button> :
                             <SignInModal />
                     }
                 </div>
