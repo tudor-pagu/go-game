@@ -1,4 +1,4 @@
-import { connectAuthEmulator, UserCredential } from "firebase/auth";
+import { connectAuthEmulator, signInAnonymously, signInWithRedirect, UserCredential } from "firebase/auth";
 import { getAdditionalUserInfo, getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useEffect, useState } from "react";
 import Auth from "../interfaces/Auth";
@@ -19,9 +19,9 @@ function firebaseToUser(firebaseUser : UserCredential) : User {
 }
 
 function signIn() {
-    signInWithPopup(auth, provider).then((result) => {
+    signInWithRedirect(auth, provider).then((result) => {
         Firestore.setUser(firebaseToUser(result));
-    });
+    },()=>{});
 }
 function signOut() : void {
     auth.signOut();
@@ -45,8 +45,17 @@ const useAuthState = () => {
     });
 };
 
+const signInAsGuest = () => {
+    signInAnonymously(auth).then(()=>{
+
+    }).catch(()=>{
+        console.log("sign in anonymously error");
+    })
+}
+
 const FireAuth : Auth = {
-    signIn,
+    signInWithGoogle: signIn,
+    signInAsGuest,
     signOut,
     getCurrentUser,
     useAuthState,

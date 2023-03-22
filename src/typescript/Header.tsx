@@ -1,12 +1,34 @@
+import { Button, Modal, ModalHeader, ModalOverlay, useDisclosure, ModalContent, ModalCloseButton, ModalBody, Flex } from '@chakra-ui/react';
 import React from 'react'
 import { Outlet } from 'react-router-dom';
-import Button from './Button';
 import FireAuth from './services/FirebaseAuth';
 import SignButton from './SignButton';
 import SignIn from './SignButton';
 
 type Props = {
 
+}
+
+const SignInModal = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    return (<div>
+        <Button colorScheme='blue' onClick={onOpen}>Sign in</Button>
+
+        <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>Sign in</ModalHeader>
+                <ModalCloseButton/>
+
+                <ModalBody>
+                    <Flex direction="column">
+                        <Button onClick={FireAuth.signInAsGuest}> Sign in as guest </Button>
+                        <Button onClick={FireAuth.signInWithGoogle}> Sign in with Google </Button>
+                    </Flex>
+                </ModalBody>
+            </ModalContent>
+        </Modal>
+    </div>)
 }
 
 const Header = (props: Props) => {
@@ -24,7 +46,7 @@ const Header = (props: Props) => {
                 {
                     user ?
                         <Button onClick={FireAuth.signOut}>Sign Out</Button> :
-                        <Button onClick={FireAuth.signIn}>Sign in</Button>
+                        <SignInModal />
                 }
             </div>
             <div>

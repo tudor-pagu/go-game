@@ -17,9 +17,9 @@ import FireAuth from './services/FirebaseAuth';
 import Firestore from './services/Firestore';
 
 function App() {
-  const user = FireAuth.getCurrentUser();
-  const games = Firestore.useActiveGames();
-  FireAuth.useAuthState();
+ // const user = FireAuth.getCurrentUser();
+  //const games = Firestore.useActiveGames();
+/*  FireAuth.useAuthState();
   
   if (games === null) {
     return <div>loading...</div>
@@ -45,7 +45,6 @@ function App() {
               })
             }
           </div>
-          {/*<Button onClick={createGameModal}> Create Game </Button>*/}
           <ModalComp currentUserID={user.uid}/>
           </div>
         <div>
@@ -62,7 +61,8 @@ function App() {
         </div>
       </div>
     </div>
-  );
+  );*/
+  return (<></>);
 }
 
 export default App;

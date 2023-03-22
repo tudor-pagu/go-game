@@ -1,7 +1,8 @@
 import User from "../User"
 
 interface Auth {
-    signIn : () => void,
+    signInWithGoogle : () => void,
+    signInAsGuest : () => void,
     signOut : () => void,
     getCurrentUser : () => User | null,
     /**
