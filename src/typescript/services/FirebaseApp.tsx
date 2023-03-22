@@ -18,7 +18,7 @@ if(local) {
 
 const auth = getAuth(app);
 if (local) {
-    connectAuthEmulator(auth, 'http://localhost:9099');
+    connectAuthEmulator(auth, 'http://localhost:9099', {disableWarnings:true});
 }
 
 export {db, auth};

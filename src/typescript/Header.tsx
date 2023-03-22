@@ -1,4 +1,4 @@
-import { Button, Modal, ModalHeader, ModalOverlay, useDisclosure, ModalContent, ModalCloseButton, ModalBody, Flex, Input } from '@chakra-ui/react';
+import { Button, Modal, ModalHeader, ModalOverlay, useDisclosure, ModalContent, ModalCloseButton, ModalBody, Flex, Input, Text, Image } from '@chakra-ui/react';
 import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom';
 import FireAuth from './services/FirebaseAuth';
@@ -13,7 +13,7 @@ const SignInModal = () => {
     const [displayName, setDisplayName] = useState("");
     const { isOpen, onOpen, onClose } = useDisclosure()
     return (<div>
-        <Button colorScheme='blue' onClick={onOpen}>Sign in</Button>
+        <Button colorScheme='gray' onClick={onOpen}>Sign in</Button>
 
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
@@ -26,7 +26,7 @@ const SignInModal = () => {
                         <form onSubmit={(e) => { e.preventDefault(); setDisplayName(""); FireAuth.signInAsGuest(displayName); onClose(); }}>
                             <Flex gap="10px" alignItems="center">
                                 <Input required placeholder="name" value={displayName} onChange={(e) => { setDisplayName(e.target.value) }}></Input>
-                                <Button height="60px"
+                                <Button variant="ghost" height="60px"
                                     type="submit" style={{
                                         whiteSpace: "normal",
                                         wordWrap: "break-word",
@@ -44,19 +44,30 @@ const SignInModal = () => {
 const Header = (props: Props) => {
     const user = FireAuth.useCurrentUser();
     return (
-        <div>
-            <div className='bg-blue-400 flex justify-end gap-3 items-center'>
-                <div>
+        <div >
+            <div className='flex justify-between gap-3 items-center shadow-sm z-10 relative pl-4'>
+                <Text fontSize="1rem" fontWeight="bold">
+                    Tudor Go
+                </Text>
+                <div className='flex items-center'>
+                    <div className='font-bold text-md'>
+                        {
+                            user &&
+                            user.displayName
+                        }
+                    </div>
+                    <div>
+                        {
+                            user && 
+                            <Image src={user.photoURL ?? undefined}></Image>
+                        }
+                    </div>
                     {
-                        user &&
-                        user.displayName
+                        user ?
+                            <Button size="xs" variant="ghost" colorScheme='gray' onClick={FireAuth.signOut}>Sign Out</Button> :
+                            <SignInModal />
                     }
                 </div>
-                {
-                    user ?
-                        <Button colorScheme='blue' onClick={FireAuth.signOut}>Sign Out</Button> :
-                        <SignInModal />
-                }
             </div>
             <div>
                 <Outlet />
