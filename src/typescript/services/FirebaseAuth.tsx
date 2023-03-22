@@ -1,13 +1,14 @@
-import { connectAuthEmulator, signInAnonymously, signInWithRedirect, UserCredential } from "firebase/auth";
+import { connectAuthEmulator, createUserWithEmailAndPassword, signInAnonymously, signInWithRedirect, updateProfile, UserCredential } from "firebase/auth";
 import { getAdditionalUserInfo, getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useEffect, useState } from "react";
 import Auth from "../interfaces/Auth";
 import User from "../User";
 import Firestore from "./Firestore";
 import {auth} from "./FirebaseApp";
+import {v4 as uuidv4} from "uuid";
 
 
-const provider = new GoogleAuthProvider();
+const GoogleProvider = new GoogleAuthProvider();
 
 
 function firebaseToUser(firebaseUser : UserCredential) : User {
@@ -18,8 +19,8 @@ function firebaseToUser(firebaseUser : UserCredential) : User {
     }
 }
 
-function signIn() {
-    signInWithRedirect(auth, provider).then((result) => {
+function signInWithGoogle() {
+    signInWithPopup(auth, GoogleProvider).then((result) => {
         Firestore.setUser(firebaseToUser(result));
     },()=>{});
 }
@@ -36,25 +37,28 @@ const useAuthState = () => {
     const [meaningless,setMeaningless] = useState(0);
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(() => {
+            console.log("auth change");
             setMeaningless(meaningless + 1);
         });
 
         return () => {
             unsubscribe();
         }
-    });
+    }, []);
 };
 
-const signInAsGuest = () => {
-    signInAnonymously(auth).then(()=>{
+const signInAsGuest = (displayName:string) => {
+    console.log("hi");
+    signInAnonymously(auth).then((userCredential) => {
+        updateProfile(userCredential.user, {displayName:displayName}).then(() => {
+            //return userCredential.user.getIdTokenResult(true);
+        });
 
-    }).catch(()=>{
-        console.log("sign in anonymously error");
-    })
+    });
 }
 
 const FireAuth : Auth = {
-    signInWithGoogle: signIn,
+    signInWithGoogle: signInWithGoogle,
     signInAsGuest,
     signOut,
     getCurrentUser,

@@ -2,7 +2,7 @@ import User from "../User"
 
 interface Auth {
     signInWithGoogle : () => void,
-    signInAsGuest : () => void,
+    signInAsGuest : (displayName:string) => void,
     signOut : () => void,
     getCurrentUser : () => User | null,
     /**
