@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import Auth from "../interfaces/Auth";
 import User from "../User";
 import Firestore from "./Firestore";
-import app from "./FirebaseApp";
-const auth = getAuth(app);
-connectAuthEmulator(auth, "https://localhost:9099");
+import {auth} from "./FirebaseApp";
+
 
 const provider = new GoogleAuthProvider();
 

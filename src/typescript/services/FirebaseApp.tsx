@@ -1,9 +1,22 @@
 
 import secret from '../../secret';
-import {initializeApp} from "firebase/app"
+import { collection, connectFirestoreEmulator, doc, getDocs, getFirestore, setDoc } from 'firebase/firestore';
+import { connectAuthEmulator, getAuth } from 'firebase/auth';
+import { initializeApp } from '@firebase/app';
+import { VStack } from '@chakra-ui/react';
 
-const firebaseConfig = secret.firebaseConfig;
-const emulatorConfig = secret.emulatorConfig;
-const app = initializeApp(emulatorConfig);
+const app = initializeApp(secret.firebaseConfig);
 
-export default app;
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+console.log('hi!');
+connectFirestoreEmulator(db, 'localhost', 8080);
+setDoc(doc(collection(db,'juice'),"new_juice"),{juiceboy:"hi"});
+getDocs(collection(db,"juice")).then((val)=>{
+    val.forEach((id)=>{
+        console.log(id.data());
+    })
+})
+
+export {db, auth};

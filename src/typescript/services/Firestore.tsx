@@ -6,10 +6,7 @@ import { Board, BoardCell } from "../GameLogic";
 import Database from "../interfaces/Database";
 import Cell from "../PlayerEnum";
 import User from "../User";
-import app from "./FirebaseApp";
-
-const db = getFirestore(app);
-connectFirestoreEmulator(db, 'localhost', 8080);
+import {db} from "./FirebaseApp";
 
 function gameToFirestore(game:Game) : any {
     return {
