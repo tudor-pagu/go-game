@@ -32,7 +32,7 @@ function App() {
           <Flex direction="column" gap="2" className={styles.mainContainer}>
             <YourGames activeGames={games} user={user} />
             <YourChallenges activeGames={games} user={user} />
-            <FindGames />
+            <FindGames activeGames={games} user={user}/>
             <SpectateGames />
           </Flex>
           : <div>log in first</div>
@@ -93,10 +93,10 @@ const YourGames = (props: { activeGames: List<Game>, user: User }) => {
   )
 }
 
-const GamesList = (props: { games: List<Game>, renderActionButton:(game:Game)=>React.ReactNode }) => {
+const GamesList = (props: { games: List<Game>, renderActionButton: (game: Game) => React.ReactNode }) => {
   return (
     <TableContainer>
-      <Table variant='simple' size={['xs', 'md', 'lg'] }>
+      <Table variant='simple' size={['xs', 'md', 'lg']}>
         <Thead>
           <Tr>
             <Th>Name</Th>
@@ -132,12 +132,12 @@ const YourChallenges = (props: { activeGames: List<Game>, user: User }) => {
     return (!(game.black != null && game.white != null)) && (game.black?.uid === props.user.uid || game.white?.uid === props.user.uid);
   })
 
-  const acceptButton = (game:Game) => {
+  const acceptButton = (game: Game) => {
     if ((game.black?.uid === props.user.uid) || (game.white?.uid === props.user.uid)) {
-      return <Button size={['xs','sm','md']} colorScheme='red' onClick={()=>{Firestore.deleteGame(game.id)}}>Delete</Button>
+      return <Button size={['xs', 'sm', 'md']} colorScheme='red' onClick={() => { Firestore.deleteGame(game.id) }}>Delete</Button>
     }
     return (
-      <Button size={['xs','sm','md']} colorScheme='green'>Accept</Button>
+      <Button size={['xs', 'sm', 'md']} colorScheme='green'>Accept</Button>
     )
   }
   return (
@@ -149,7 +149,7 @@ const YourChallenges = (props: { activeGames: List<Game>, user: User }) => {
       <div>
         {
           myActiveGames.size > 0 ?
-            <GamesList games={myActiveGames} renderActionButton={acceptButton}/>
+            <GamesList games={myActiveGames} renderActionButton={acceptButton} />
             : <EmptyMessage>You are not in any games!</EmptyMessage>
         }
       </div>
@@ -157,13 +157,29 @@ const YourChallenges = (props: { activeGames: List<Game>, user: User }) => {
   )
 }
 
-const FindGames = () => {
+const FindGames = (props: { activeGames: List<Game>, user: User }) => {
+  const otherChallenges = props.activeGames.filter((game) => {
+    return (!(game.black != null && game.white != null)) && (game.black?.uid !== props.user.uid && game.white?.uid !== props.user.uid);
+  });
+
+  const acceptButton = (game: Game) => {
+    return <Button size={['xs', 'sm', 'md']} colorScheme='green' onClick={() => {}}>Accept</Button>
+
+  }
+
   return (
-    <div>
+    <div className='flex flex-col items-center'>
       <SectionHeading>
-        Your Games
+        Find Games
       </SectionHeading>
       <Divider></Divider>
+      <div>
+        {
+          otherChallenges.size > 0 ?
+            <GamesList games={otherChallenges} renderActionButton={acceptButton} />
+            : <div>There are no other challenges</div>
+        }
+      </div>
     </div>
   )
 }
