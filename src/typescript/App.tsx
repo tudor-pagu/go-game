@@ -32,8 +32,8 @@ function App() {
           <Flex direction="column" gap="2" className={styles.mainContainer}>
             <YourGames activeGames={games} user={user} />
             <YourChallenges activeGames={games} user={user} />
-            <FindGames activeGames={games} user={user}/>
-            <SpectateGames />
+            <FindGames activeGames={games} user={user} />
+            <SpectateGames activeGames={games} user={user} />
           </Flex>
           : <div>log in first</div>
       }
@@ -70,7 +70,7 @@ const MyGameListing = (props: { game: Game }) => {
 
 const YourGames = (props: { activeGames: List<Game>, user: User }) => {
   const myChallenges = props.activeGames.filter((game) => {
-    return (game.black != null && game.white != null) && (game.black.uid === props.user.uid || game.white.uid === props.user.uid);
+    return (game.isAccepted === true && game.isFinished === false) && (game.black != null && game.white != null) && (game.black.uid === props.user.uid || game.white.uid === props.user.uid);
   })
   return (
     <div className='flex flex-col items-center'>
@@ -129,7 +129,7 @@ const GamesList = (props: { games: List<Game>, renderActionButton: (game: Game) 
 }
 const YourChallenges = (props: { activeGames: List<Game>, user: User }) => {
   const myActiveGames = props.activeGames.filter((game) => {
-    return (!(game.black != null && game.white != null)) && (game.black?.uid === props.user.uid || game.white?.uid === props.user.uid);
+    return (game.isAccepted === false) && (game.black?.uid === props.user.uid || game.white?.uid === props.user.uid);
   })
 
   const acceptButton = (game: Game) => {
@@ -159,12 +159,11 @@ const YourChallenges = (props: { activeGames: List<Game>, user: User }) => {
 
 const FindGames = (props: { activeGames: List<Game>, user: User }) => {
   const otherChallenges = props.activeGames.filter((game) => {
-    return (!(game.black != null && game.white != null)) && (game.black?.uid !== props.user.uid && game.white?.uid !== props.user.uid);
+    return (game.isAccepted === false) && (!(game.black != null && game.white != null)) && (game.black?.uid !== props.user.uid && game.white?.uid !== props.user.uid);
   });
 
   const acceptButton = (game: Game) => {
-    return <Button size={['xs', 'sm', 'md']} colorScheme='green' onClick={() => {}}>Accept</Button>
-
+    return <Button size={['xs', 'sm', 'md']} colorScheme='green' onClick={() => { }}>Accept</Button>
   }
 
   return (
@@ -184,13 +183,28 @@ const FindGames = (props: { activeGames: List<Game>, user: User }) => {
   )
 }
 
-const SpectateGames = () => {
+const SpectateGames = (props: { activeGames: List<Game>, user: User }) => {
+  const games = props.activeGames.filter((game) => {
+    return game.isAccepted === true && game.isFinished === false && (!(game.black?.uid === props.user.uid || game.white?.uid === props.user.uid))
+  });
+  const spectateButton = (game: Game) => {
+    return <Button size={['xs', 'sm', 'md']} colorScheme='gray'>
+      Spectate
+    </Button>
+  }
   return (
     <div>
       <SectionHeading>
-        Your Games
+        Spectate Games
       </SectionHeading>
       <Divider></Divider>
+      <div className='flex flex-col items-center'>
+        {
+          games.size > 0
+            ? <GamesList games={games} renderActionButton={spectateButton} />
+            : <div>There are no games to spectate</div>
+        }
+      </div>
     </div>
   )
 }

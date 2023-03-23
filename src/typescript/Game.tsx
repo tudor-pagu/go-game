@@ -13,6 +13,9 @@ interface GameProps {
     id:string,
     black:User|null,
     white:User|null,
+    isAccepted : boolean,
+    isFinished : boolean,
+    winner:null|"black"|"white",
 }
 
 const GameRecord = Record<GameProps>({
@@ -24,6 +27,9 @@ const GameRecord = Record<GameProps>({
     id:"1234",
     black:null,
     white:null,
+    isAccepted:false,
+    isFinished:false,
+    winner:null,
 });
 
 type Game = RecordOf<GameProps>;
