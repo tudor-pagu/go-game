@@ -16,10 +16,12 @@ type Props = {
   boardSize:number,
   isHandicap:boolean,
   playerMove: (p: Position) => void,
+  userPlayer : Player,
 }
 
 const BoardCellView = (props: Props) => {
   const [isTransparent, setIsTransparent] = useState(false);
+  const isActive = props.cell === Cell.Empty && props.userPlayer === props.currentPlayer;
   return (
     <div className={(props.positionX!='Middle' ? "board-cell-edge":"") + " board-cell-main " + props.positionX + " " + props.positionY}>
       {
@@ -40,7 +42,7 @@ const BoardCellView = (props: Props) => {
         </div>
         }
 
-      <div onClick={() => { if (props.cell == Cell.Empty) { props.playerMove(props.position) } }} className={'board-cell ' + props.positionX + " " + props.positionY} onMouseEnter={() => { setIsTransparent(true) }} onMouseLeave={() => { setIsTransparent(false) }}>
+      <div onClick={() => { if (isActive) { props.playerMove(props.position) } }} className={'board-cell ' + props.positionX + " " + props.positionY} onMouseEnter={() => { setIsTransparent(true) }} onMouseLeave={() => { setIsTransparent(false) }}>
 
         {
           props.positionX != "Left" &&
@@ -88,7 +90,7 @@ const BoardCellView = (props: Props) => {
 
             </div>
             : (
-              isTransparent &&
+              (isTransparent && isActive) &&
               <div className={'piece ' + (props.currentPlayer == Cell.White ? "white " : "black ") + (isTransparent ? "transparent" : "")}>
 
               </div>

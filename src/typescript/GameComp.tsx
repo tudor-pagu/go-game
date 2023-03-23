@@ -11,16 +11,17 @@ import * as Database from "./interfaces/Database";
 import { updateJsxFragment } from 'typescript';
 import Firestore from './services/Firestore';
 import { GameRecord } from './Game';
+import FireAuth from './services/FirebaseAuth';
 
 function GameComp() {
     const { gameID } = useLoaderData() as { gameID: string };
 
     // Database.add_to_collection("games",GameRecord().id,gameToData(GameRecord()));
 
-
+    const user = FireAuth.useCurrentUser();
     const game = Firestore.useGame(gameID);
 
-    if (game === null) {
+    if (game === null || user === null) {
         return <div>loading...</div>
     }
 
@@ -45,7 +46,7 @@ function GameComp() {
     return (
 
         <div className="App">
-            <BoardView playerMove={playerMove} board={game.board} currentPlayer={game.currentPlayer} />
+            <BoardView userPlayer={game.black?.uid === user?.uid ? Cell.Black : Cell.White} playerMove={playerMove} board={game.board} currentPlayer={game.currentPlayer} />
         </div>
     );
 }
