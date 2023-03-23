@@ -5,6 +5,7 @@ import Player from './Player'
 import Cell from './PlayerEnum'
 import Position from './Position'
 import { getPositionOfLineAndCharacter } from 'typescript'
+import User from './User'
 
 type Props = {
   cell: BoardCell,

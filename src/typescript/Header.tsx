@@ -1,6 +1,6 @@
 import { Button, Modal, ModalHeader, ModalOverlay, useDisclosure, ModalContent, ModalCloseButton, ModalBody, Flex, Input, Text, Image } from '@chakra-ui/react';
 import React, { useState } from 'react'
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import FireAuth from './services/FirebaseAuth';
 import SignButton from './SignButton';
 import SignIn from './SignButton';
@@ -43,12 +43,16 @@ const SignInModal = () => {
 
 const Header = (props: Props) => {
     const user = FireAuth.useCurrentUser();
+    const navigate=useNavigate();
     return (
         <div >
             <div className='flex justify-between gap-3 items-center shadow-sm z-10 relative pl-4'>
-                <Text fontSize="1rem" fontWeight="bold">
-                    Tudor Go
-                </Text>
+                <div className="flex gap-3">
+                    <Text fontSize="1.5rem" fontWeight="bold">
+                        Tudor Go
+                    </Text>
+                    <Button onClick={()=>{navigate("/")}} fontWeight="light" fontSize="1.2rem" colorScheme="gray" variant="link">Home</Button>
+                </div>
                 <div className='flex items-center'>
                     <div className='font-bold text-md'>
                         {
@@ -58,7 +62,7 @@ const Header = (props: Props) => {
                     </div>
                     <div>
                         {
-                            user && 
+                            user &&
                             <Image src={user.photoURL ?? undefined}></Image>
                         }
                     </div>

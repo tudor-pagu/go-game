@@ -14,9 +14,9 @@ import { GameRecord } from './Game';
 
 function GameComp() {
     const { gameID } = useLoaderData() as { gameID: string };
-    
-   // Database.add_to_collection("games",GameRecord().id,gameToData(GameRecord()));
-    
+
+    // Database.add_to_collection("games",GameRecord().id,gameToData(GameRecord()));
+
 
     const game = Firestore.useGame(gameID);
 
@@ -29,12 +29,16 @@ function GameComp() {
         if (newBoard instanceof Error) {
             window.alert(newBoard.message);
         } else {
-            const newGame = GameRecord({
-                board:newBoard,
-                boardHistory: game.boardHistory.push(game.board),
-                currentPlayer:(game.currentPlayer == Cell.White) ? Cell.Black : Cell.White,
-            })
-            Firestore.setGame(gameID,newGame);
+            const newGame = game
+                .set("board", newBoard)
+                .set("boardHistory", game.boardHistory.push(game.board))
+                .set("currentPlayer", (game.currentPlayer == Cell.White) ? Cell.Black : Cell.White)
+            /* const newGame = GameRecord({
+                 board:newBoard,
+                 boardHistory: game.boardHistory.push(game.board),
+                 currentPlayer:(game.currentPlayer == Cell.White) ? Cell.Black : Cell.White,
+             })*/
+            Firestore.setGame(gameID, newGame);
         }
     }
 

@@ -72,6 +72,13 @@ const YourGames = (props: { activeGames: List<Game>, user: User }) => {
   const myChallenges = props.activeGames.filter((game) => {
     return (game.isAccepted === true && game.isFinished === false) && (game.black != null && game.white != null) && (game.black.uid === props.user.uid || game.white.uid === props.user.uid);
   })
+
+  //console.log(props.activeGames.get(0));
+
+  const navigate = useNavigate();
+  const playButton = (game:Game) => {
+    return <Button onClick={() =>{spectateGame(navigate, game)}} colorScheme='green' size={['xs', 'sm', 'md']}>Play</Button>
+  }
   return (
     <div className='flex flex-col items-center'>
       <SectionHeading>
@@ -80,14 +87,12 @@ const YourGames = (props: { activeGames: List<Game>, user: User }) => {
       <Divider></Divider>
       <div>
         {
-          myChallenges.size > 0 ?
-            myChallenges.map((game) => {
-              return <MyGameListing game={game} />
-            }).toArray()
+          myChallenges.size > 0 
+            ? <GamesList games={myChallenges} renderActionButton={playButton}/>
             : <EmptyMessage>You are not in any games!</EmptyMessage>
         }
       </div>
-
+        <div className='h-2'></div>
       <CreateGameButton />
     </div>
   )

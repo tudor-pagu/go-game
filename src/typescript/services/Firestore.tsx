@@ -39,8 +39,8 @@ function firestoreToGame(gameJSON:any) : Game {
         id:game.id,
         black:game.black,
         white:game.white,
-        isAccepted:false,
-        isFinished:false,
+        isAccepted:game.isAccepted,
+        isFinished:game.isFinished,
         winner:null,
     });
 }
