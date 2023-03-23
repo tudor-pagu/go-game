@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import { List } from 'immutable';
 import React, { useEffect, useState } from 'react';
-import { redirect } from 'react-router-dom';
+import { NavigateFunction, redirect, useNavigate } from 'react-router-dom';
 import BoardView from './BoardView';
 import './interfaces/Database'
 import { Game } from './Game';
@@ -109,15 +109,13 @@ const GamesList = (props: { games: List<Game>, renderActionButton: (game: Game) 
           {
             props.games.map((game) => {
               return (
-                <>
-                  <Tr>
+                  <Tr key={game.id}>
                     <Td>{game.name}</Td>
                     <Td>{game.black?.displayName ?? "-"}</Td>
                     <Td>{game.white?.displayName ?? "-"}</Td>
                     <Td>{`${game.boardSize}x${game.boardSize}`}</Td>
                     <Td>{props.renderActionButton(game)}</Td>
                   </Tr>
-                </>
 
               )
             })
@@ -131,13 +129,13 @@ const YourChallenges = (props: { activeGames: List<Game>, user: User }) => {
   const myActiveGames = props.activeGames.filter((game) => {
     return (game.isAccepted === false) && (game.black?.uid === props.user.uid || game.white?.uid === props.user.uid);
   })
-
+  const navigate=useNavigate();
   const acceptButton = (game: Game) => {
     if ((game.black?.uid === props.user.uid) || (game.white?.uid === props.user.uid)) {
       return <Button size={['xs', 'sm', 'md']} colorScheme='red' onClick={() => { Firestore.deleteGame(game.id) }}>Delete</Button>
     }
     return (
-      <Button size={['xs', 'sm', 'md']} colorScheme='green'>Accept</Button>
+      <Button size={['xs', 'sm', 'md']} onClick={() => {acceptGame(game, props.user).then(()=>{spectateGame(navigate,game)})}} colorScheme='green'>Accept</Button>
     )
   }
   return (
@@ -162,8 +160,10 @@ const FindGames = (props: { activeGames: List<Game>, user: User }) => {
     return (game.isAccepted === false) && (!(game.black != null && game.white != null)) && (game.black?.uid !== props.user.uid && game.white?.uid !== props.user.uid);
   });
 
+  const navigate = useNavigate();
+
   const acceptButton = (game: Game) => {
-    return <Button size={['xs', 'sm', 'md']} colorScheme='green' onClick={() => { }}>Accept</Button>
+    return <Button size={['xs', 'sm', 'md']} colorScheme='green' onClick={() => {acceptGame(game, props.user).then(()=>{spectateGame(navigate,game)})}}>Accept</Button>
   }
 
   return (
@@ -184,6 +184,8 @@ const FindGames = (props: { activeGames: List<Game>, user: User }) => {
 }
 
 const SpectateGames = (props: { activeGames: List<Game>, user: User }) => {
+  const navigate = useNavigate();
+
   const games = props.activeGames.filter((game) => {
     return game.isAccepted === true && game.isFinished === false && (!(game.black?.uid === props.user.uid || game.white?.uid === props.user.uid))
   });
@@ -207,6 +209,20 @@ const SpectateGames = (props: { activeGames: List<Game>, user: User }) => {
       </div>
     </div>
   )
+}
+
+///user - user wants to accept a certain game
+function acceptGame(game:Game, user:User) : Promise<void>{
+  if (game.isAccepted===false && (game.black === null || game.white===null)) {
+    const key = (game.black===null) ? "black" : "white";
+    const newGame = game.set(key , user).set("isAccepted", true);
+    return Firestore.setGame(game.id, newGame);
+  }
+  return Promise.reject("Game not valid");
+}
+
+function spectateGame(navigate:NavigateFunction, game:Game) {
+  navigate(`game/${game.id}`);
 }
 
 export default App;
