@@ -12,6 +12,7 @@ interface Database {
      */
     useGame: (gameId:string) => Game | null,
     setGame : (gameId:string, newGame:Game) => Promise<void>,
+    deleteGame:(gameId:string) => Promise<void>
     /**
      * Returns all currently active games
      * @returns 

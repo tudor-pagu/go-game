@@ -1,4 +1,4 @@
-import { collection, connectFirestoreEmulator, doc, getDoc, getDocs, getFirestore, onSnapshot, query, setDoc } from "firebase/firestore";
+import { collection, connectFirestoreEmulator, deleteDoc, doc, getDoc, getDocs, getFirestore, onSnapshot, query, setDoc } from "firebase/firestore";
 import { List } from "immutable";
 import { useEffect, useState } from "react";
 import { Game, GameRecord } from "../Game";
@@ -68,6 +68,10 @@ function setGame (gameId:string, newGame:Game) {
     return setDoc(doc(db,"games",gameId), gameToFirestore(newGame)); 
 }
 
+function deleteGame(gameId:string):Promise<void> {
+    return deleteDoc(doc(db,'games',gameId));
+}
+
 function useActiveGames():List<Game>|null {
     const [activeGame, setActiveGames] = useState<null|List<Game>>(null);
     useEffect(()=> {
@@ -92,9 +96,11 @@ function setUser(user:User) : Promise<void> {
     return setDoc(doc(db,"users",user.uid), user);
 }
 
+
 const Firestore : Database = {
     useGame,
     setGame,
+    deleteGame,
     useActiveGames,
     useUser,
     setUser: setUser
