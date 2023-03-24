@@ -1,5 +1,5 @@
 import Immutable, { List, Record, RecordOf } from 'immutable';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import BoardView from './BoardView';
 import './interfaces/Database'
@@ -8,13 +8,28 @@ import Player from './Player';
 import Cell from './PlayerEnum';
 import Position from './Position';
 import * as Database from "./interfaces/Database";
-import { updateJsxFragment } from 'typescript';
+import { setConstantValue, updateJsxFragment } from 'typescript';
 import Firestore from './services/Firestore';
 import { GameRecord } from './Game';
 import FireAuth from './services/FirebaseAuth';
+import styles from "../css/GameComp.module.css";
+
+function useDimensions() {
+    const [height,setHeight] = useState(window.innerHeight);
+    const [width,setWidth] = useState(window.innerWidth);
+    useEffect(() => {
+        window.addEventListener('resize',() => {
+            setHeight(window.innerHeight);
+            setWidth(window.innerWidth);
+        });
+    }, []);
+    return [height,width];
+}
 
 function GameComp() {
-    const { gameID } = useLoaderData() as { gameID: string };
+    const [height,width] = useDimensions();
+   // const factor = Math.min(height,width)/300;
+   const { gameID } = useLoaderData() as { gameID: string };
 
     // Database.add_to_collection("games",GameRecord().id,gameToData(GameRecord()));
 
@@ -24,6 +39,9 @@ function GameComp() {
     if (game === null || user === null) {
         return <div>loading...</div>
     }
+
+    const factor = Math.min(height,width)/(game.boardSize*16) * 0.8; 
+
 
     const playerMove = (p: Position) => {
         const newBoard = updateBoard(game.board, p, game.currentPlayer, game.boardHistory);
@@ -45,8 +63,12 @@ function GameComp() {
 
     return (
 
-        <div className="App">
-            <BoardView userPlayer={game.black?.uid === user?.uid ? Cell.Black : Cell.White} playerMove={playerMove} board={game.board} currentPlayer={game.currentPlayer} />
+        <div>
+            <div className='h-screen w-screen flex justify-center'>
+                <div style={{transform:`scale(${factor}) translate(0,50%)`}}>
+                    <BoardView userPlayer={game.black?.uid === user?.uid ? Cell.Black : Cell.White} playerMove={playerMove} board={game.board} currentPlayer={game.currentPlayer} />
+                </div>
+            </div>
         </div>
     );
 }
