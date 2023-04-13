@@ -4,12 +4,15 @@
     background-color : #dcb35c;
     height : 100%;
     width : 100%;
+    padding : 2px;
 }
 
 .mainGrid {
     display : grid;
     width : 100%;
     height : 100%;
+    background-color : #dcb35c;
+
 }
 
 
@@ -70,7 +73,7 @@
 }
 
 .numberBoard{
-    font: 0.4rem;
+    font-size: 2vh;
     justify-self :center;
     align-self : center;
     font-weight: 600;
