@@ -195,7 +195,7 @@ const SpectateGames = (props: { activeGames: List<Game>, user: User }) => {
     return game.isAccepted === true && game.isFinished === false && (!(game.black?.uid === props.user.uid || game.white?.uid === props.user.uid))
   });
   const spectateButton = (game: Game) => {
-    return <Button size={['xs', 'sm', 'md']} colorScheme='gray'>
+    return <Button size={['xs', 'sm', 'md']} colorScheme='gray' onClick={()=>{spectateGame(navigate, game)}}>
       Spectate
     </Button>
   }

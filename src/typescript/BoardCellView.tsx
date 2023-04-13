@@ -24,45 +24,58 @@ const BoardCellView = (props: Props) => {
   const [isTransparent, setIsTransparent] = useState(false);
   const isActive = props.cell === Cell.Empty && props.userPlayer === props.currentPlayer;
   return (
-      <div className={styles.cell}>
-        <div>
-          {
-            props.positionX != "Left" &&
-            <div className={styles.crossHoriLeft}>
+    <div className={styles.cell} onClick={() => { if (isActive) { props.playerMove(props.position) } }} onMouseEnter={() => { setIsTransparent(true) }} onMouseLeave={() => { setIsTransparent(false) }}>
+      <div>
+        {
+          props.positionX != "Left" &&
+          <div className={styles.crossHoriLeft}>
+
+          </div>
+        }
+
+
+        {
+          props.positionX != "Right" &&
+          <div className={styles.crossHoriRight}>
+
+          </div>
+        }
+
+        {
+          props.positionY != "Top" &&
+          <div className={styles.crossVertTop}>
+
+          </div>
+        }
+
+        {
+          props.positionY != "Bottom" &&
+          <div className={styles.crossVertBottom}>
+
+          </div>
+        }
+
+        {
+          props.isHandicap &&
+          <div className={styles.handicapDot}>
+
+          </div>
+        }
+
+        {
+          props.cell != Cell.Empty ?
+            <div className={'piece ' + (props.cell == Cell.White ? "white " : "black ")}>
 
             </div>
-          }
+            : (
+              (isTransparent && isActive) &&
+              <div className={'piece ' + (props.currentPlayer == Cell.White ? "white " : "black ") + (isTransparent ? "transparent" : "")}>
 
-
-          {
-            props.positionX != "Right" &&
-            <div className={styles.crossHoriRight}>
-
-            </div>
-          }
-
-          {
-            props.positionY != "Top" &&
-            <div className={styles.crossVertTop}>
-
-            </div>
-          }
-
-          {
-            props.positionY != "Bottom" &&
-            <div className={styles.crossVertBottom}>
-
-            </div>
-          }
-
-          {
-            props.isHandicap &&
-            <div className={styles.handicapDot}>
-
-            </div>
-          }
-        </div>
+              </div>
+            )
+        }
       </div>
+    </div>
   )
 }
 
