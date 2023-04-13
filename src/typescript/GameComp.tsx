@@ -1,5 +1,5 @@
 import Immutable, { List, Record, RecordOf } from 'immutable';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import BoardView from './BoardView';
 import './interfaces/Database'
@@ -27,11 +27,43 @@ function useDimensions() {
 }
 
 function GameComp() {
-    const [height,width] = useDimensions();
+    
+    const ref = useRef<HTMLDivElement|null>(null);
    // const factor = Math.min(height,width)/300;
    const { gameID } = useLoaderData() as { gameID: string };
 
     // Database.add_to_collection("games",GameRecord().id,gameToData(GameRecord()));
+
+    const handleResize = () => {
+        console.log("hi");
+        if (ref.current) {
+
+            let viewPortHeight = (window.innerHeight - ref.current.offsetTop);
+            if (viewPortHeight >= 480) {
+                viewPortHeight *= 0.95;
+            }
+            const viewPortWidth = window.innerWidth;
+            const min = Math.min(viewPortHeight, viewPortWidth);
+
+            const dimension = ( (min <= 768) ? min : min * 0.8);
+            //ref.current.
+            ref.current.style.width = `${dimension}px`;
+            ref.current.style.height = `${dimension}px`;
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize',handleResize);
+
+        return () => {
+            window.removeEventListener('resize',handleResize);
+        }
+    }, []);
+
+    useEffect(() => {
+        handleResize();
+    })
+    
 
     const user = FireAuth.useCurrentUser();
     const game = Firestore.useGame(gameID);
@@ -39,8 +71,6 @@ function GameComp() {
     if (game === null || user === null) {
         return <div>loading...</div>
     }
-
-    const factor = Math.min(height,width)/(game.boardSize*16) * 0.8; 
 
 
     const playerMove = (p: Position) => {
@@ -61,15 +91,14 @@ function GameComp() {
         }
     }
 
+    
     return (
 
-        <div>
-            <div className='h-screen w-screen flex justify-center'>
-                <div style={{transform:`scale(${factor}) translate(0,50%)`}}>
+            <div className={styles.fullContainer}>
+                <div ref={ref} className={styles.goBoard}>
                     <BoardView userPlayer={game.black?.uid === user?.uid ? Cell.Black : Cell.White} playerMove={playerMove} board={game.board} currentPlayer={game.currentPlayer} />
                 </div>
             </div>
-        </div>
     );
 }
 

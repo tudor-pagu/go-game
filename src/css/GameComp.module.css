@@ -1,4 +1,9 @@
-.boardContainer {
-    transform : scale(2);
-    background-color : red;
+.fullContainer {
+    display : flex;
+    justify-content: center;
+    padding-top : 1%;
 }
+.goBoard {
+    background-color : gray;
+}
+

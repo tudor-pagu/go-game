@@ -1,0 +1,85 @@
+
+
+.board {
+    background-color : #dcb35c;
+    height : 100%;
+    width : 100%;
+}
+
+.mainGrid {
+    display : grid;
+    width : 100%;
+    height : 100%;
+}
+
+
+.crossHoriLeft {
+    background-color : black;
+    width : 50%;
+    height : 1px;
+    position:absolute;
+    right : 50%;
+    top : 50%;
+    transform:translate(0,-50%)
+
+}
+
+.crossHoriRight {
+    background-color : black;
+    width : 50%;
+    height : 1px;
+    position:absolute;
+    left : 50%;
+    top : 50%;
+    transform:translate(0,-50%)
+}
+
+
+.crossVertTop {
+    background-color : black;
+    width : 1px;
+    height : 50%;
+    position:absolute;
+    left : 50%;
+    transform:translate(-50%)
+}
+
+.crossVertBottom {
+    background-color : black;
+    width : 1px;
+    height : 50%;
+    position:absolute;
+    left : 50%;
+    top : 50%;
+    transform:translate(-50%);
+}
+
+.cell {
+    position : relative;
+}
+
+.handicapDot {
+    background-color: black;
+    width : 1.5px;
+    height : 1.5px;
+    left : 50%;
+    top : 50%;
+    transform:translate(-50%,-50%) scaleX(2) scaleY(2);
+    transform-origin: center;
+    position : absolute;
+}
+
+.numberBoard{
+    font: 0.4rem;
+    justify-self :center;
+    align-self : center;
+    font-weight: 600;
+    color : #3e3e3e;
+}
+
+
+@media(max-width : 480px) {
+    .numberBoard {
+        font:0.1rem;  
+    }
+}
