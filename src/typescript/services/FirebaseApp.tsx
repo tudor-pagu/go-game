@@ -14,8 +14,7 @@ const app = initializeApp(config);
 const db = getFirestore(app);
 if(local) {
     connectFirestoreEmulator(db, 'localhost', 8080);
-}
-
+} 
 const auth = getAuth(app);
 if (local) {
     connectAuthEmulator(auth, 'http://localhost:9099', {disableWarnings:true});
