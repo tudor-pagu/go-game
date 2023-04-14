@@ -80,9 +80,24 @@ function GameComp() {
         if (newBoard instanceof Error) {
             window.alert(newBoard.message);
         } else {
+            
+            const count = (board:Board, player:Player) => {
+                return board.reduce((sum, row) => {
+                    return sum + row.reduce((sum2, val) => {return sum2 + ((val === player) ? 1 : 0)}, 0);
+                }, 0)
+            };
+
+            const getDif = (player : Player) => {
+                const oldAmmount = count(game.board, player);
+                const newAmmount = count(newBoard, player);
+                return oldAmmount - newAmmount;
+            };
+
+            const newCaptures : [number,number] = ( (game.currentPlayer === Cell.Black) ? [game.captures[0] + getDif(Cell.White), game.captures[1] ] : [game.captures[0], game.captures[1] + getDif(Cell.Black)] );
             const newGame = game
                 .set("board", newBoard)
                 .set("boardHistory", game.boardHistory.push(game.board))
+                .set("captures", newCaptures)
                 .set("currentPlayer", (game.currentPlayer == Cell.White) ? Cell.Black : Cell.White)
             /* const newGame = GameRecord({
                  board:newBoard,
@@ -143,8 +158,8 @@ const ScoreScreen = (props: { game: Game, pass: () => void }) => {
         <div className={styles.scoreScreen}>
             <div className='flex flex-col items-center gap-3'>
                 <div className='flex gap-2'>
-                    <UserInfo captures={0} user={props.game.black} theme={styles.black} />
-                    <UserInfo captures={0} user={props.game.white} theme={styles.white} />
+                    <UserInfo captures={props.game.captures[0]} user={props.game.black} theme={styles.black} />
+                    <UserInfo captures={props.game.captures[1]} user={props.game.white} theme={styles.white} />
                 </div>
                 <div className={styles.passButton}>
                     <Button size='sm' colorScheme='blue' onClick={props.pass}>Pass</Button>

@@ -15,6 +15,7 @@ interface GameProps {
     white:User|null,
     isAccepted : boolean,
     isFinished : boolean,
+    captures : [number,number], /// captures[0] will just be black captures, captures[1] for white
     winner:null|"black"|"white",
 }
 
@@ -29,6 +30,7 @@ const GameRecord = Record<GameProps>({
     white:null,
     isAccepted:false,
     isFinished:false,
+    captures : [0,0],
     winner:null,
 });
 

@@ -39,7 +39,7 @@ const CreateGameButton = () => {
             boardSize : Number(boardSize),
             board : getEmptyBoard(Number(boardSize)),
             boardHistory : List<Board>(),
-            currentPlayer : currentPlayer,
+            currentPlayer : Cell.Black,
             id:uuid(),
             black:black,
             white:white,
