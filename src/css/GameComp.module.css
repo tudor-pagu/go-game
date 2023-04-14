@@ -1,9 +1,71 @@
 .fullContainer {
-    display : flex;
+    display: flex;
     justify-content: center;
-    padding-top : 1%;
-}
-.goBoard {
-    background-color : gray;
+    padding-top: 1%;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
+.goBoard {
+    background-color: gray;
+}
+
+.spacer {
+    flex: 1;
+}
+
+
+.displayName {
+    font-size: 1.2rem;
+}
+
+.userInfo {
+    background-color: gray;
+    padding: 2px 10px;
+    border-radius: 5px;
+}
+
+.scoreScreen {
+    margin-left: auto;
+    margin-right: 5px;
+}
+
+.userInfo.black {
+    background: hsla(0, 0%, 15%, 1);
+
+    background: linear-gradient(45deg, hsla(0, 0%, 15%, 1) 0%, hsla(0, 0%, 40%, 1) 100%);
+
+    background: -moz-linear-gradient(45deg, hsla(0, 0%, 15%, 1) 0%, hsla(0, 0%, 40%, 1) 100%);
+
+    background: -webkit-linear-gradient(45deg, hsla(0, 0%, 15%, 1) 0%, hsla(0, 0%, 40%, 1) 100%);
+
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#272727", endColorstr="#656565", GradientType=1);
+
+}
+
+.black .displayName {
+    color : #848c8e;
+}
+.userInfo.white {
+    background: hsla(0, 0%, 82%, 1);
+
+    background: linear-gradient(90deg, hsla(0, 0%, 82%, 1) 0%, hsla(0, 0%, 82%, 1) 100%);
+
+    background: -moz-linear-gradient(90deg, hsla(0, 0%, 82%, 1) 0%, hsla(0, 0%, 82%, 1) 100%);
+
+    background: -webkit-linear-gradient(90deg, hsla(0, 0%, 82%, 1) 0%, hsla(0, 0%, 82%, 1) 100%);
+
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#D1D1D1", endColorstr="#D1D1D1", GradientType=1);
+}
+
+.white .captures {
+    color : black;
+}
+
+.black .captures {
+    color : rgb(202, 202, 202);
+}
+
+.captures {
+    font-weight : bold;
+}
