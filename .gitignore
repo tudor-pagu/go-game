@@ -20,7 +20,6 @@
 
 firebase-debug.log
 firestore-debug.log
-src/secret.js
 
 npm-debug.log*
 yarn-debug.log*
