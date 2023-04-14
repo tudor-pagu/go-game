@@ -18,6 +18,8 @@
 .env.test.local
 .env.production.local
 
+firebase-debug.log
+firestore-debug.log
 src/secret.js
 
 npm-debug.log*

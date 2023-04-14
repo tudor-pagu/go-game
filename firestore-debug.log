@@ -5998,3 +5998,7 @@ Apr 14, 2023 4:45:03 PM com.google.cloud.datastore.emulator.firestore.webchannel
 INFO: channel closed
 Apr 14, 2023 4:45:09 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
+Apr 14, 2023 4:45:48 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Apr 14, 2023 4:45:48 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
