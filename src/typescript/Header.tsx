@@ -12,6 +12,8 @@ type Props = {
 const SignInModal = () => {
     const [displayName, setDisplayName] = useState("");
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const navigate=useNavigate();
+
     return (<div>
         <Button colorScheme='blue' variant='ghost' size='md' onClick={onOpen}>Sign in</Button>
 
@@ -23,7 +25,7 @@ const SignInModal = () => {
 
                 <ModalBody>
                     <Flex direction="column" gap="6px">
-                        <form onSubmit={(e) => { e.preventDefault(); setDisplayName(""); FireAuth.signInAsGuest(displayName); onClose(); }}>
+                        <form onSubmit={(e) => { e.preventDefault(); setDisplayName(""); navigate('/'); FireAuth.signInAsGuest(displayName); onClose(); }}>
                             <Flex gap="10px" alignItems="center">
                                 <Input required placeholder="name" value={displayName} onChange={(e) => { setDisplayName(e.target.value) }}></Input>
                                 <Button height="60px"
@@ -33,7 +35,7 @@ const SignInModal = () => {
                                     }}> Sign in as guest </Button>
                             </Flex>
                         </form>
-                        <Button onClick={FireAuth.signInWithGoogle}> Sign in with Google </Button>
+                        <Button onClick={() => {navigate('/'); FireAuth.signInWithGoogle()}}> Sign in with Google </Button>
                     </Flex>
                 </ModalBody>
             </ModalContent>
@@ -68,7 +70,7 @@ const Header = (props: Props) => {
                     </div>
                     {
                         user ?
-                            <Button size="sm" variant="ghost" colorScheme='blue' onClick={FireAuth.signOut}>Sign Out</Button> :
+                            <Button size="sm" variant="ghost" colorScheme='blue' onClick={() => {navigate('/'); FireAuth.signOut()}}>Sign Out</Button> :
                             <SignInModal />
                     }
                 </div>

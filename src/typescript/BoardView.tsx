@@ -11,7 +11,7 @@ type Props = {
   board: Board,
   currentPlayer: Player,
   playerMove: (p: Position) => void,
-  userPlayer: Player,
+  userPlayer: Player | null,
 }
 
 const handicap9 = List([{ row: 2, col: 2 }, { row: 2, col: 6 }, { row: 4, col: 4 }, { row: 6, col: 2 }, { row: 6, col: 6 }]);

@@ -17,7 +17,7 @@ type Props = {
   boardSize: number,
   isHandicap: boolean,
   playerMove: (p: Position) => void,
-  userPlayer: Player,
+  userPlayer: Player | null,
 }
 
 const BoardCellView = (props: Props) => {

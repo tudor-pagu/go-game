@@ -108,9 +108,10 @@ function GameComp() {
         }
     }
 
+    const userPlayer = (game.black?.uid === user?.uid ? Cell.Black : (game.white?.uid === user?.uid ? Cell.White : null));
+
     const pass = () => {
-        const playerUser = ((game.black?.uid === user.uid) ? Cell.Black : Cell.White);
-        if (game.currentPlayer === playerUser) {
+        if (game.currentPlayer === userPlayer) {
             const newGame = game
                 .set('boardHistory', game.boardHistory.push(game.board))
                 .set("currentPlayer", (game.currentPlayer == Cell.White) ? Cell.Black : Cell.White)
@@ -119,12 +120,13 @@ function GameComp() {
             window.alert("It is not your turn!");
         }
     }
+
     return (
 
         <div className={styles.fullContainer}>
             <div className='flex-1 justify-center flex'>
                 <div ref={ref} className={styles.goBoard}>
-                    <BoardView userPlayer={game.black?.uid === user?.uid ? Cell.Black : Cell.White} playerMove={playerMove} board={game.board} currentPlayer={game.currentPlayer} />
+                    <BoardView userPlayer={userPlayer} playerMove={playerMove} board={game.board} currentPlayer={game.currentPlayer} />
                 </div>
             </div>
             <div>
