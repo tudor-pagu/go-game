@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/go-game/static/css/main.db79edb2.css",
-    "main.js": "/go-game/static/js/main.5b4abcf8.js",
+    "main.js": "/go-game/static/js/main.d44785fc.js",
     "static/js/787.75a5f7ea.chunk.js": "/go-game/static/js/787.75a5f7ea.chunk.js",
     "index.html": "/go-game/index.html",
     "main.db79edb2.css.map": "/go-game/static/css/main.db79edb2.css.map",
-    "main.5b4abcf8.js.map": "/go-game/static/js/main.5b4abcf8.js.map",
+    "main.d44785fc.js.map": "/go-game/static/js/main.d44785fc.js.map",
     "787.75a5f7ea.chunk.js.map": "/go-game/static/js/787.75a5f7ea.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.db79edb2.css",
-    "static/js/main.5b4abcf8.js"
+    "static/js/main.d44785fc.js"
   ]
 }
